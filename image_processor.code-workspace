@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "root/home/pixel/OF/libs/openFrameworks"
+		},
+		{
+			"path": "OF/libs/openFrameworks"
+		},
+		{
+			"path": "${workspaceRoot}/../../../../addons"
+		}
+	],
+	"settings": {}
+}
