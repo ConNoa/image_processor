@@ -37,7 +37,6 @@ class ofApp : public ofBaseApp{
 
 		cv::Mat ofImgToCVMat(ofImage const& img_in);
 
-
 		//-- added
 		void cutResChanged();
 		void filterbuttonPressed();
@@ -61,6 +60,7 @@ class ofApp : public ofBaseApp{
 
 //-----command-GUI
 		ofxPanel 					gui_s2;
+		ofParameterGroup	command_slider_2;
 		ofxButton 				compute_filter;
 		ofxButton 				randomsamp;
 		ofxToggle 				switch_screen1;
@@ -69,37 +69,42 @@ class ofApp : public ofBaseApp{
 
 //----informational-GUI
 		ofxPanel 					gui_s3;
+		ofParameterGroup	info_slider_3;
 		ofxLabel 					dim_monitor1;
 		ofxLabel 					dim_monitor2;
 		ofxLabel 					dim_monitor3;
-
 		ofxLabel 					label;
 
+//----testGUI
+		ofxPanel								gui_s4;
+		ofParameterGroup				test_slider_4;
+		ofParameter<int> 				int_sl1;
+		ofParameter<int> 				int_sl2;
+		ofParameter<int>				int_sl3;
+		ofParameter<float> 			flt_sl1;
+		ofParameter<float>	 		flt_sl2;
+		ofParameter<float>			flt_sl3;    //100% complete resolution
+		ofxColorSlider 					clr_sl1;
+		ofParameter<ofVec2f> 		vec2_sl1 ;
+		ofParameter<ofVec2f> 		vec2_sl2;
+		ofParameter<ofVec3f> 		vec3_sl1;
+		ofParameter<ofVec4f>		vec4_sl1;
+
+		ofxToggle 				filled;
+		ofxButton 				twoCircles;
+//----------------Inputfields
+		ofxIntField				intField;
+		ofxFloatField		 	floatField;
+		ofxTextField 			textField;
+
+//-----------some FLAGS
 
 		bool 							filter_loaded;
 		bool 							filter_exists;
 		bool 							pixel_filter_exists;
 		bool 							bHide;
 
-
-//----testGUI
-		ofxIntSlider 			filter_expo;
-		ofxIntSlider 			cutResolution;
-		ofxFloatSlider 		radius;
-		ofxColorSlider 		color;
-		ofxVec2Slider 		center;
-
-		ofxToggle 				filled;
-		ofxButton 				twoCircles;
-
-//Sampleparameter
-		// ofxIntSlider 				m_sampleamm_abs;
-		// ofxFloatSlider	 			m_sampleamm_rel;
-		// ofxFloatSlider				m_superpix_res;    //100% complete resolution
-
-
-
-
+//--cv::STRUCTS
 
 		Filter 						pix_filter;
 
@@ -116,20 +121,11 @@ class ofApp : public ofBaseApp{
 		ofImage 					roi2;
 
 		ofPixels 					lena_pix;
-//Testparameter
+
+//testparameter
 		int 							x_roi, y_roi;
 		int 							width_roi, height_roi;
 		int 							mouse_x, mouse_y;
 
-
-//----------------Tutorial Zusatz
-		ofxIntField				intField;
-		ofxFloatField		 	floatField;
-		ofxTextField 			textField;
-
-
-		ofxVec2Slider 		vec2S;
-		ofxVec3Slider 		vec3S;
-		ofxVec4Slider			vec4S;
 
 };

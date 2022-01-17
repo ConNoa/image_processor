@@ -23,41 +23,42 @@ void ofApp::setup(){
 	sample_slider_1.add(border_height.setup("Border height", 0, 0, 5));
 	gui_s1.setup(sample_slider_1);
 
+//-------------------------------------------------------------------------
+	command_slider_2.setName("command GUI");
+	gui.add(compute_filter.setup("Compute Filter"));
+	gui.add(randomsamp.setup("Sample Random Points"));
+	gui.add(switch_screen1.setup("Screen 1 Switch"));
+	gui.add(switch_screen2.setup("Screen 2 Switch"));
+	gui_s2.setup(command_slider_2);
 
-	slider_2.setName("command GUI");
-	slider_2.add(compute_filter.setup("Compute Filter"));
+//-------------------------------------------------------------------------
+	info_slider_3.setName("informational GUI");
+	gui.add(dim_monitor1.setup("screen size screen 1", ofToString(ofGetWidth())+"x"+ofToString(ofGetHeight())));
+	gui.add(dim_monitor2.setup("screen size screen 2", ofToString(ofGetWidth())+"x"+ofToString(ofGetHeight())));
+	gui.add(dim_monitor3.setup("screen size screen 3", ofToString(ofGetWidth())+"x"+ofToString(ofGetHeight())));
+	gui.add(label.setup("hierkommt was hilfreiches rein", ofToString(ofGetWidth())+"x"+ofToString(ofGetHeight())));
+	gui_s3.setup(info_slider_3);
 
-	slider_3.setName("informational GUI");
-	slider_3.add(screenSize.setup("screen size screen 1", ofToString(ofGetWidth())+"x"+ofToString(ofGetHeight())));
-	slider_3.add(screenSize.setup("screen size screen 2", ofToString(ofGetWidth())+"x"+ofToString(ofGetHeight())));
-	slider_3.add(screenSize.setup("screen size screen 3", ofToString(ofGetWidth())+"x"+ofToString(ofGetHeight())));
+//-------------------------------------------------------------------------
+	test_slider_4.setName(" sliders for testing");
+	test_slider_4.add(filled.setup("fill", true));
+	test_slider_4.add(roi_size.setup("RectangleOfinterest size", 1, 1, 500));
+	test_slider_4.add(intField.setup("INTEGER field", 100, 0, 10000));
+	test_slider_4.add(floatField.setup("FLOAT field", 100.0, 0, 10000));
+	test_slider_4.add(textField.setup("TEXT field", "text"));
+	test_slider_4.add(toggle.setup("toggle",false));
+	test_slider_4.add(button.setup("button",));
+	test_slider_4.add(label.setup("label","This is a Label"));
+	test_slider_4.add(vec2S.setup("vec2 Slider", ofVec2f(0,0), ofVec2f(0,0), ofVec2f(0,0)));
+	test_slider_4.add(vec3S.setup("vec3 Slider", ofVec3f(100, 100, 100), ofVec3f(100, 100, 100), ofVec3f(100, 100, 100));
+	test_slider_4.add(vec4S.setup("vec4 Slider", ofVec4f(50, 50, 50, 50), ofVec4f(50, 50, 50, 50), ofVec4f(50, 50, 50, 50), ofVec4f(50, 50, 50, 50)));
+	gui_s4.setup(test_slider_4);
 
-
-
-
-
-
-	gui.setup(); // most of the time you don't need a name
-	gui.add(filled.setup("fill", true));
-	gui
-	gui.add(roi_size.setup("RectangleOfinterest size", 1, 1, 500));
-
-
-
-	gui.add(intField.setup("INTEGER field", 100, 0, 10000));
-	gui.add(floatField.setup("FLOAT field", 100.0, 0, 10000));
-	gui.add(textField.setup("TEXT field", "text"));
-
-	gui.add(toggle.setup("toggle",false));
-	gui.add(button.setup("button",));
-	gui.add(label.setup("label","This is a Label"));
-
-	gui.add(vec2S.setup("vec2 Slider", ofVec2f(0,0), ofVec2f(0,0), ofVec2f(0,0)));
-	gui.add(vec3S.setup("vec3 Slider", ofVec3f(100, 100, 100), ofVec3f(100, 100, 100), ofVec3f(100, 100, 100));
-	gui.add(vec4S.setup("vec4 Slider", ofVec4f(50, 50, 50, 50), ofVec4f(50, 50, 50, 50), ofVec4f(50, 50, 50, 50), ofVec4f(50, 50, 50, 50)));
-
+	gui.setup();
+//-----------------------------------------------------------------------------
+//-----------setting up environment--------------------------------------------
+//-----------------------------------------------------------------------------
 	pix_filter.intg_array_map(1, 20, 1000);
-
 	bHide = false;
 	filter_exists = false;
 	filter_loaded = false;
