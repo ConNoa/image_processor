@@ -7,54 +7,64 @@ void ofApp::setup(){
 
 //----------LISTENER----------------------------------------------
 	//
-	// roi_size.addListener(this, &ofApp::cutResChanged(ofxIntSlider));
-	// compute_filter.addListener(this, &ofApp::filterbuttonPressed(ofxButton));
+	int_sl3.addListener(this, &ofApp::cutResChanged);
+	compute_filter.addListener(this, &ofApp::filterbuttonPressed);
+
+	int prio = 0;
+  //ofAddListener(, this, &ofApp::);
 
 //-------------GÚI INTERFACE------------------------------------------------
 	sample_slider_1.setName("sample-parameters");
 	sample_slider_1.add(m_sampleamm_abs.set("Sampleammount ABS", 1000, 10, 200000));
 	sample_slider_1.add(m_sampleamm_rel.set("Sampleammount REL", 10, 0, 100));
 	sample_slider_1.add(m_superpix_res.set("Superpixel Res.", 100, 0, 100));
-	sample_slider_1.add(superpixel_width.setup("S.Pix width", 1, 1, 19));
-	sample_slider_1.add(superpixel_height.setup("S.Pix height", 1, 1, 19));
-	sample_slider_1.add(cosx_e.setup("Cosx^", 1, 1, 15));
-	sample_slider_1.add(cosy_e.setup("Cosy^", 1, 1, 15));
-	sample_slider_1.add(border_width.setup("Border width", 0, 0, 5));
-	sample_slider_1.add(border_height.setup("Border height", 0, 0, 5));
-	gui_s1.setup(sample_slider_1);
-
+	sample_slider_1.add(superpixel_width.set("S.Pix width", 1, 1, 19));
+	sample_slider_1.add(superpixel_height.set("S.Pix height", 1, 1, 19));
+	sample_slider_1.add(cosx_e.set("Cosx^", 1, 1, 15));
+	sample_slider_1.add(cosy_e.set("Cosy^", 1, 1, 15));
+	sample_slider_1.add(border_width.set("Border width", 0, 0, 5));
+	sample_slider_1.add(border_height.set("Border height", 0, 0, 5));
+  //	gui_s1.setup(sample_slider_1);
 //-------------------------------------------------------------------------
-	command_slider_2.setName("command GUI");
+	//command_slider_2.setName("command GUI");
 	gui.add(compute_filter.setup("Compute Filter"));
 	gui.add(randomsamp.setup("Sample Random Points"));
 	gui.add(switch_screen1.setup("Screen 1 Switch"));
 	gui.add(switch_screen2.setup("Screen 2 Switch"));
-	gui_s2.setup(command_slider_2);
-
+	//		 gui_s2.setup(command_slider_2);
 //-------------------------------------------------------------------------
-	info_slider_3.setName("informational GUI");
+	//	info_slider_3.setName("informational GUI");
 	gui.add(dim_monitor1.setup("screen size screen 1", ofToString(ofGetWidth())+"x"+ofToString(ofGetHeight())));
 	gui.add(dim_monitor2.setup("screen size screen 2", ofToString(ofGetWidth())+"x"+ofToString(ofGetHeight())));
 	gui.add(dim_monitor3.setup("screen size screen 3", ofToString(ofGetWidth())+"x"+ofToString(ofGetHeight())));
 	gui.add(label.setup("hierkommt was hilfreiches rein", ofToString(ofGetWidth())+"x"+ofToString(ofGetHeight())));
-	gui_s3.setup(info_slider_3);
-
+	//		 gui_s3.setup(info_slider_3);
 //-------------------------------------------------------------------------
 	test_slider_4.setName(" sliders for testing");
-	test_slider_4.add(filled.setup("fill", true));
-	test_slider_4.add(roi_size.setup("RectangleOfinterest size", 1, 1, 500));
-	test_slider_4.add(intField.setup("INTEGER field", 100, 0, 10000));
-	test_slider_4.add(floatField.setup("FLOAT field", 100.0, 0, 10000));
-	test_slider_4.add(textField.setup("TEXT field", "text"));
-	test_slider_4.add(toggle.setup("toggle",false));
-	test_slider_4.add(button.setup("button",));
-	test_slider_4.add(label.setup("label","This is a Label"));
-	test_slider_4.add(vec2S.setup("vec2 Slider", ofVec2f(0,0), ofVec2f(0,0), ofVec2f(0,0)));
-	test_slider_4.add(vec3S.setup("vec3 Slider", ofVec3f(100, 100, 100), ofVec3f(100, 100, 100), ofVec3f(100, 100, 100));
-	test_slider_4.add(vec4S.setup("vec4 Slider", ofVec4f(50, 50, 50, 50), ofVec4f(50, 50, 50, 50), ofVec4f(50, 50, 50, 50), ofVec4f(50, 50, 50, 50)));
-	gui_s4.setup(test_slider_4);
+	test_slider_4.add(int_sl1.set("int_sl", 0, 1, 100));
+	test_slider_4.add(int_sl2.set("int_sl", 0, 1, 100));
+	test_slider_4.add(int_sl3.set("int_sl", 0, 1, 100));
+	test_slider_4.add(flt_sl1.set("flt_sl", 1, 1, 3.4159));
+	test_slider_4.add(flt_sl2.set("flt_sl", 1, 1, 3.4159));
+	test_slider_4.add(flt_sl3.set("flt_sl", 1, 1, 3.4159));
+	test_slider_4.add(clr_sl1.set("clr_sl1" , ofVec3f(125, 150, 35)));/*, ofVec3f(255, 150, 120), ofVec3f(70, 150, 0)));*/
+	test_slider_4.add(vec2_sl1.set("vec2_sl1", ofVec2f(0,0), ofVec2f(0,0), ofVec2f(ofGetWidth(),ofGetHeight())));
+	test_slider_4.add(vec2_sl2.set("vec2_sl2", ofVec2f(0,0), ofVec2f(0,0), ofVec2f(0,0)));
+	test_slider_4.add(vec3_sl1.set("vec3_sl1", ofVec3f(100, 150, 90), ofVec3f(0, 0, 100), ofVec3f(255, 255, 255)));
+	test_slider_4.add(vec4_sl1.set("vec4_sl1", ofVec4f(50, 50, 50, 50), ofVec4f(0,0,0,0), ofVec4f(255, 255, 255, 255)));
+	//gui_s4.setup(test_slider_4);
+	gui.add(tog1.setup("toggle1", true));
+	gui.add(but1.setup("but1",true));
 
+	gui.add(intField.setup("int field", 100, 0, 100));
+	gui.add(floatField.setup("float field", 100.0, 0, 100));
+	gui.add(textField.setup("text field", "Probetext"));
+
+	slider_group.add(sample_slider_1);
+	slider_group.add(test_slider_4);
+	gui.add(slider_group);
 	gui.setup();
+
 //-----------------------------------------------------------------------------
 //-----------setting up environment--------------------------------------------
 //-----------------------------------------------------------------------------
@@ -109,8 +119,8 @@ void ofApp::draw(){
 	roi_1.update();
 	roi_1.draw(200,10);
 
-	int cTr = (int)(399/roi_size);
-	RecOfIntr(mouse_x, mouse_y,1000, cTr, 500 , 300);
+	int cTr = (int)(399/int_sl1);
+	//cv::Rect roi_rect = cv::Rect(mouse_x, mouse_y, x_roi, cTr, width_roi , height_roi);
 	//	roi_out.draw(100, 10, 120, 30);
 	// auto draw?
 	// should the gui control hiding?
@@ -126,9 +136,9 @@ void ofApp::draw(){
 
 //-------added--
 void ofApp::exit(){
-	roi_size.removeListener(this, &ofApp::cutResChanged(&));
+	int_sl3.removeListener(this, &ofApp::cutResChanged);
 
-	compute_filter.removeListener(this, &ofApp::filterbuttonPressed(&));
+	compute_filter.removeListener(this, &ofApp::filterbuttonPressed);
 	return;
 }
 
@@ -145,7 +155,7 @@ void ofApp::keyPressed(int key){
 		gui.loadFromFile("settings.xml");
 	}
 	else if(key == ' '){
-		color = ofColor(255);
+	  ofSetColor(255);
 	}
 }
 
@@ -190,7 +200,7 @@ void ofApp::mouseEventPos(int x, int y){
 
 
 void ofApp::windowResized(int w, int h){
-	screenSize = ofToString(w)+ "x" + ofToString(h);
+	dim_monitor1 = ofToString(w)+ "x" + ofToString(h);
 
 }
 
@@ -243,7 +253,7 @@ void ofApp::setFilterToPixel(){
 }
 
 void ofApp::updateRectangleSize(){
-	Mat submat_t = Mat(lena_mat, cv::Rect(x_roi, y_roi, roi_size, heightRectangleOfinteresti));
+	Mat submat_t = Mat(lena_mat, cv::Rect(x_roi, y_roi, int_sl2, int_sl3));
 	toOf(submat_t, roi_1);
 	roi_1.update();
 

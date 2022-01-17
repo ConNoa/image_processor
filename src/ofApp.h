@@ -44,7 +44,10 @@ class ofApp : public ofBaseApp{
 		void updateRectangleSize();
 
 
-
+		ofParameterGroup	main_group;
+		ofParameterGroup	slider_group;
+		ofxPanel					gui;
+		ofxPanel					main_gui;
 //-----sampleparameters
 		ofxPanel 					gui_s1;
  		ofParameterGroup	sample_slider_1;
@@ -84,21 +87,20 @@ class ofApp : public ofBaseApp{
 		ofParameter<float> 			flt_sl1;
 		ofParameter<float>	 		flt_sl2;
 		ofParameter<float>			flt_sl3;    //100% complete resolution
-		ofxColorSlider 					clr_sl1;
+		ofParameter<ofVec3f> 		clr_sl1;			//color
 		ofParameter<ofVec2f> 		vec2_sl1 ;
 		ofParameter<ofVec2f> 		vec2_sl2;
 		ofParameter<ofVec3f> 		vec3_sl1;
 		ofParameter<ofVec4f>		vec4_sl1;
 
-		ofxToggle 				filled;
-		ofxButton 				twoCircles;
+		ofxToggle 							tog1;
+		ofxButton 							but1;
 //----------------Inputfields
 		ofxIntField				intField;
 		ofxFloatField		 	floatField;
 		ofxTextField 			textField;
 
 //-----------some FLAGS
-
 		bool 							filter_loaded;
 		bool 							filter_exists;
 		bool 							pixel_filter_exists;
