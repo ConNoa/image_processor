@@ -7,10 +7,8 @@ void ofApp::setup(){
 
 //----------LISTENER----------------------------------------------
 	//
-	int_sl3.addListener(this, &ofApp::cutResChanged);
-	compute_filter.addListener(this, &ofApp::filterbuttonPressed);
+	int_sl3.addListener(this, &ofApp::cutResChanged, OF_EVENT_ORDER_AFTER_APP);
 
-	int prio = 0;
   //ofAddListener(, this, &ofApp::);
 
 //-------------GÚI INTERFACE------------------------------------------------
@@ -27,10 +25,10 @@ void ofApp::setup(){
   //	gui_s1.setup(sample_slider_1);
 //-------------------------------------------------------------------------
 	//command_slider_2.setName("command GUI");
-	gui.add(compute_filter.setup("Compute Filter"));
-	gui.add(randomsamp.setup("Sample Random Points"));
-	gui.add(switch_screen1.setup("Screen 1 Switch"));
-	gui.add(switch_screen2.setup("Screen 2 Switch"));
+	gui.add(compute_filter.set("Compute Filter"));
+	gui.add(randomsamp.set("Sample Random Points"));
+	gui.add(switch_screen1.set("Screen 1 Switch"));
+	gui.add(switch_screen2.set("Screen 2 Switch"));
 	//		 gui_s2.setup(command_slider_2);
 //-------------------------------------------------------------------------
 	//	info_slider_3.setName("informational GUI");
@@ -138,7 +136,6 @@ void ofApp::draw(){
 void ofApp::exit(){
 	int_sl3.removeListener(this, &ofApp::cutResChanged);
 
-	compute_filter.removeListener(this, &ofApp::filterbuttonPressed);
 	return;
 }
 

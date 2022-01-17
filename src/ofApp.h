@@ -44,12 +44,12 @@ class ofApp : public ofBaseApp{
 		void updateRectangleSize();
 
 
+		ofEventListener listenerMouse;// debug mouse clicks
+
 		ofParameterGroup	main_group;
 		ofParameterGroup	slider_group;
 		ofxPanel					gui;
-		ofxPanel					main_gui;
 //-----sampleparameters
-		ofxPanel 					gui_s1;
  		ofParameterGroup	sample_slider_1;
 		ofParameter<int>	m_sampleamm_abs;
 		ofParameter<float>m_sampleamm_rel;
@@ -62,12 +62,11 @@ class ofApp : public ofBaseApp{
 		ofParameter<int>	border_height;
 
 //-----command-GUI
-		ofxPanel 					gui_s2;
 		ofParameterGroup	command_slider_2;
-		ofxButton 				compute_filter;
-		ofxButton 				randomsamp;
-		ofxToggle 				switch_screen1;
-		ofxToggle 				switch_screen2;
+		ofParameter<bool> compute_filter;
+		ofParameter<bool>	randomsamp;
+		ofParameter<bool>	switch_screen1;
+		ofParameter<bool> switch_screen2;
 
 
 //----informational-GUI
