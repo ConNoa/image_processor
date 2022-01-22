@@ -10,6 +10,7 @@
 #include "filter.hpp"
 
 using namespace ofxCv;
+using namespace cv;
 
 
 class ofApp : public ofBaseApp{

@@ -60,9 +60,12 @@ void Filter::createFilter(int size_, int exp_, int iterations_){
 void Filter::createFilter_xy(int width_, int height_, int cosx_, int cosy_){
   cv::Mat filter_out = Mat(height_, width_, CV_64FC1);
   cout << filter_out.rows <<" rows in mat [createfilter], cols:"<<filter_out.cols<<endl;
-  if(m_cosin_map.count(width_)){
+  //
+  //---------------------if bedingung läuft noch nicht keine matritzen vorgespeichert
+  //
+  if (m_cosin_map.count(width_) && m_cosin_map.count(height_))
+  {
     cv::Mat x_mult = get_FMat1D(width_, cosx_);
-
     cv::Mat y_mult = get_FMat1D(height_, cosy_);
     y_mult = y_mult.t();
     filter_out = y_mult*x_mult;
@@ -76,11 +79,29 @@ void Filter::createFilter_xy(int width_, int height_, int cosx_, int cosy_){
     //cv::Mat add_to_mat = cv::Mat(filter_out.size(), CV_64FC1, Scalar(255));
     //cout <<"addout  ->"<< add_to_mat<< endl;
     //filter_out = filter_out+add_to_mat;
-//    cout <<"filterout  ->"<< filter_out<< endl;
+  // cout <<"filterout  ->"<< filter_out<< endl;
+     filter_out = convertTo_CV_8U(filter_out);
+  //  cout <<"filterout  ->"<< filter_out<< endl;
+  }
+  else{
+    cout<< "no filtermats"<<endl;
+    cv::Mat x_mult = integral_array(width_, 1000, cosx_);
+    cv::Mat y_mult = integral_array(height_,1000,  cosy_);
+    y_mult = y_mult.t();
+    filter_out = y_mult * x_mult;
+    //cout <<"x_mult  ->"<< x_mult<< endl;
+    //cout <<"y_mult  ->"<< y_mult<< endl;
+    //cout << "filterout  ->" << filter_out << endl;
+    filter_out = scaleMatto255(filter_out);
+    // filter_out = filter_out*-1;
+    // cout <<"filterout  ->"<< filter_out<< endl;
 
+    // cv::Mat add_to_mat = cv::Mat(filter_out.size(), CV_64FC1, Scalar(255));
+    // cout <<"addout  ->"<< add_to_mat<< endl;
+    // filter_out = filter_out+add_to_mat;
+//    cout << "filterout  ->" << filter_out << endl;
     filter_out = convertTo_CV_8U(filter_out);
-    cout <<"filterout  ->"<< filter_out<< endl;
-
+    //cout << "filterout  ->" << filter_out << endl;
   }
   m_filter = filter_out;
   return;
@@ -175,6 +196,7 @@ map<int, vector<cv::Mat>>Filter::get_intgrl_array_map(int size_from, int size_to
   }
   return integralMap;
 }
+
 void Filter::intg_array_map(int size_from, int size_to, int iterations_){
 
     int max_exponent = 12;

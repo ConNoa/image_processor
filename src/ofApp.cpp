@@ -3,19 +3,14 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
 	ofSetVerticalSync(true);
-	
 	//Backgroundcolor
 	ofBackground(0,0, 255);
-
 //----------LISTENER----------------------------------------------
-	//
-
 	setup_gui();
 	setup_filter();
 //-----------------------------------------------------------------------------
 //-----------setting up environment--------------------------------------------
 //-----------------------------------------------------------------------------
-	pix_filter.intg_array_map(1, 20, 1000);
 	bHide = false;
 	filter_loaded = false;
 	pixel_filter_exists = false;
@@ -27,15 +22,13 @@ void ofApp::setup(){
 	test_img.load("6_lena_512x512.png");
 	lena_pix = test_img.getPixels();
 	lena_mat =  Mat(toCv(lena_pix));
-	cout << "Testmat created"<<lena_mat.cols<<"   "<<lena_mat.rows<< endl;
-
+	//cout << "Testmat created"<<lena_mat.cols<<"   "<<lena_mat.rows<< endl;
 	test = lena_mat.clone();
 	submat = cv::Mat(lena_mat, cv::Rect(x_roi, y_roi, width_roi, height_roi));
-	cout << "Testmat created"<<submat.cols<<"   "<<submat.rows<< endl;
-	cout << lena_mat.channels() <<endl;
-	cout << submat<< endl;
-
-	cout << "Testmat created"<<lena_mat.cols<<"   "<<lena_mat.rows<< endl;
+//	cout << "Testmat created"<<submat.cols<<"   "<<submat.rows<< endl;
+//	cout << lena_mat.channels() <<endl;
+//	cout << submat<< endl;
+//	cout << "Testmat created"<<lena_mat.cols<<"   "<<lena_mat.rows<< endl;
 	toOf(submat, roi_1);
 
 	roi_1.update();
@@ -58,8 +51,8 @@ void ofApp::setup_gui(){
 	sample_slider_1.add(m_sampleamm_abs.set("Sampleammount ABS", 1000, 10, 200000));
 	sample_slider_1.add(m_sampleamm_rel.set("Sampleammount REL", 10, 0, 100));
 	sample_slider_1.add(m_superpix_res.set("Superpixel Res.", 100, 0, 100));
-	sample_slider_1.add(superpixel_width.set("S.Pix width", 1, 1, 19));
-	sample_slider_1.add(superpixel_height.set("S.Pix height", 1, 1, 19));
+	sample_slider_1.add(superpixel_width.set("S.Pix width", 10, 1, 19));
+	sample_slider_1.add(superpixel_height.set("S.Pix height", 10, 1, 19));
 	sample_slider_1.add(cosx_e.set("Cosx^", 1, 1, 15));
 	sample_slider_1.add(cosy_e.set("Cosy^", 1, 1, 15));
 	sample_slider_1.add(border_width.set("Border width", 0, 0, 5));
@@ -79,7 +72,7 @@ void ofApp::setup_gui(){
 	dim_SP_ges_x.setName("Breite gesamt");
 	dim_SP_ges_x = superpixel_width + border_width;
 	info_slider_3.add(dim_SP_ges_x);
-	dim_SP_ges_y.setName("Breite gesamt");
+	dim_SP_ges_y.setName("Höhe gesamt");
 	dim_SP_ges_y = superpixel_height + border_height;
 	info_slider_3.add(dim_SP_ges_y);
 	// info_slider_3.add(dim_monitor2.setup("screen size screen 2"));
@@ -121,26 +114,33 @@ void ofApp::setup_gui(){
 }
 
 void ofApp::setup_filter(){
+	pix_filter.intg_array_map(1, 20, 1000);
+
 	pix_filter.createFilter_xy(superpixel_width, superpixel_height, cosx_e, cosy_e);
 	filter_exists = true;
+	cout<< "setup_filter()"<<endl;
 }
 
 void ofApp::update(){
-	if(filter_exists && !filter_loaded){
+	/*
+	if(filter_exists && !filter_loaded)
+	{
 	actual_filterdata	= cv::Mat(superpixel_width, superpixel_height, CV_8UC1);
 	filter_loaded = true;
 	setFilterToPixel();
 	}
+*/
 	//recompute sizes and dimensions
 	dim_SP_ges_x = superpixel_width + border_width;
 	dim_SP_ges_y = superpixel_height + border_height;
 }
 
 void ofApp::draw(){
-
+/*
 	if(pixel_filter_exists){
 		filterImage.draw(100, 100, 600, 600);
 	}
+*/
 	ofSetColor(255);
 
 	test_img.update();
@@ -174,7 +174,10 @@ void ofApp::draw_filterwindow(){
 	int wi_ = 150;
 	int he_ = 150;
 	int fp_w = wi_/dim_SP_ges_x;
-	int fp_h = he_/dim_SP_ges_y; 
+	int fp_h = he_/dim_SP_ges_y;
+	Mat filter_temp = pix_filter.get_FMat2D();
+	//cout << filter_temp << endl;
+
 	ofSetRectMode(OF_RECTMODE_CORNER);
 	ofBeginShape();
 	ofSetColor(255);
@@ -183,7 +186,8 @@ void ofApp::draw_filterwindow(){
 	{
 		for (int j = 0; j < superpixel_height; j++)
 		{
-			ofSetColor(50 + i * 50 + j * 50);
+			int field_alpha = filter_temp.at<uchar>(i,j);
+			ofSetColor(field_alpha);
 			ofDrawRectangle(x_ + fp_w * i, y_ + fp_h * j, fp_w, fp_h);
 		}
 	}
@@ -192,7 +196,6 @@ void ofApp::draw_filterwindow(){
 	ofDrawRectangle(x_, y_ + fp_h * superpixel_height, fp_w * dim_SP_ges_x, fp_h * border_height); 
 	// draw right Border
 	ofDrawRectangle(x_ + fp_w * superpixel_width, y_, fp_w * border_width, fp_h * dim_SP_ges_y);
-
 	ofEndShape();
 	
 }
@@ -204,7 +207,6 @@ void ofApp::exit(){
 
 	return;
 }
-
 
 void ofApp::keyPressed(int key){
 	if(key == 'h'){
@@ -243,7 +245,7 @@ void ofApp::mousePressed(int x, int y, int button){
 }
 
 void ofApp::mouseReleased(int x, int y, int button){
-
+	cout << "mouse released"<< endl;
 }
 
 void ofApp::mouseEntered(int x, int y){
@@ -260,7 +262,6 @@ void ofApp::mouseEventPos(int x, int y){
 	return;
 }
 
-
 void ofApp::windowResized(int w, int h){
 //	dim_monitor1 = ofToString(w)+ "x" + ofToString(h);
 
@@ -270,11 +271,7 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
 
 }
 
-void ofApp::gotMessage(ofMessage msg){
-
-}
-
-
+void ofApp::gotMessage(ofMessage msg){}
 
 cv::Mat ofApp::ofImgToCVMat(ofImage const& img_in){
 	auto pix_ = img_in.getPixels();
