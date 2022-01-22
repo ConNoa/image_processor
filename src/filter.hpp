@@ -33,6 +33,7 @@ class Filter {
 
         unordered_map<FilterKey, cv::Mat, FilterKey::Hash>get_filter();
         cv::Mat get_FMat2D();
+        cv::Mat get_FMat2D(int x_, int y_, int cosx_, int cosy_);
         cv::Mat get_FMat1D(int key_, int exp_);
         map<int, vector<cv::Mat>>get_map();
         void set_exp(int exp_);
@@ -72,6 +73,7 @@ class Filter {
             int m_filtersize = 3;
             int m_iterations = 1000;
             int m_exponent = 4;
+            int m_exp_max = 16;
 
             map<int, vector<cv::Mat>> m_cosin_map;
             //key is size  vec[0] -> cos^0 .....

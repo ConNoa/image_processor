@@ -15,7 +15,59 @@ unordered_map<FilterKey, cv::Mat, FilterKey::Hash>Filter::get_filter(){
   return ht_filter;
 }
 
-cv::Mat Filter::get_FMat2D(){
+cv::Mat Filter::get_FMat2D()
+{
+  return m_filter;
+}
+
+cv::Mat Filter::get_FMat2D(int x_, int y_, int cosx_, int cosy_)
+{
+  cv::Mat filter_out = Mat(x_, y_, CV_64FC1);
+
+  Mat x_mult(x_, 1, CV_64FC1);
+  Mat y_mult(y_, 1, CV_64FC1);
+
+  if ((m_cosin_map.count(x_) > 0) || m_cosin_map.count(y_) > 0)
+  {
+    std::cout << "x_  Found" << std::endl;
+    x_mult = get_FMat1D(x_, cosx_);
+    std::cout << "y_  Found" << std::endl;
+    y_mult = get_FMat1D(y_, cosy_);
+  
+ /* else
+  {
+    intg_array_map(x_, x_, m_iterations);
+    cout<< "arraymap for x created"<<endl;
+    x_mult = get_FMat1D(x_, cosx_);
+  }
+  */
+ /* else
+  {
+    intg_array_map(y_, y_, m_iterations);
+    cout << "arraymap for x created" << endl;
+    y_mult = get_FMat1D(y_, cosy_);
+  }
+  */
+    y_mult = y_mult.t();
+    filter_out = y_mult * x_mult;
+    //  cout <<"x_mult  ->"<< x_mult<< endl;
+    //  cout <<"y_mult  ->"<< y_mult<< endl;
+    //  cout <<"filterout  ->"<< filter_out<< endl;
+    filter_out = scaleMatto255(filter_out);
+    // filter_out = filter_out*-1;
+    // cout <<"filterout  ->"<< filter_out<< endl;
+
+    // cv::Mat add_to_mat = cv::Mat(filter_out.size(), CV_64FC1, Scalar(255));
+    // cout <<"addout  ->"<< add_to_mat<< endl;
+    // filter_out = filter_out+add_to_mat;
+    // cout <<"filterout  ->"<< filter_out<< endl;
+    filter_out = convertTo_CV_8U(filter_out);
+    //  cout <<"filterout  ->"<< filter_out<< endl;
+    m_filter =  filter_out;
+  }
+  else{
+    createFilter_xy(x_, y_, cosx_, cosy_);
+  }
   return m_filter;
 }
 
@@ -63,46 +115,24 @@ void Filter::createFilter_xy(int width_, int height_, int cosx_, int cosy_){
   //
   //---------------------if bedingung läuft noch nicht keine matritzen vorgespeichert
   //
-  if (m_cosin_map.count(width_) && m_cosin_map.count(height_))
-  {
-    cv::Mat x_mult = get_FMat1D(width_, cosx_);
-    cv::Mat y_mult = get_FMat1D(height_, cosy_);
-    y_mult = y_mult.t();
-    filter_out = y_mult*x_mult;
-  //  cout <<"x_mult  ->"<< x_mult<< endl;
-  //  cout <<"y_mult  ->"<< y_mult<< endl;
-  //  cout <<"filterout  ->"<< filter_out<< endl;
-    filter_out = scaleMatto255(filter_out);
-    //filter_out = filter_out*-1;
-    //cout <<"filterout  ->"<< filter_out<< endl;
-
-    //cv::Mat add_to_mat = cv::Mat(filter_out.size(), CV_64FC1, Scalar(255));
-    //cout <<"addout  ->"<< add_to_mat<< endl;
-    //filter_out = filter_out+add_to_mat;
+  cout<< "no filtermats"<<endl;
+  cv::Mat x_mult = integral_array(width_, 1000, cosx_);
+  cv::Mat y_mult = integral_array(height_,1000,  cosy_);
+  y_mult = y_mult.t();
+  filter_out = y_mult * x_mult;
+  //cout <<"x_mult  ->"<< x_mult<< endl;
+  //cout <<"y_mult  ->"<< y_mult<< endl;
+  //cout << "filterout  ->" << filter_out << endl;
+  filter_out = scaleMatto255(filter_out);
+  // filter_out = filter_out*-1;
   // cout <<"filterout  ->"<< filter_out<< endl;
-     filter_out = convertTo_CV_8U(filter_out);
-  //  cout <<"filterout  ->"<< filter_out<< endl;
-  }
-  else{
-    cout<< "no filtermats"<<endl;
-    cv::Mat x_mult = integral_array(width_, 1000, cosx_);
-    cv::Mat y_mult = integral_array(height_,1000,  cosy_);
-    y_mult = y_mult.t();
-    filter_out = y_mult * x_mult;
-    //cout <<"x_mult  ->"<< x_mult<< endl;
-    //cout <<"y_mult  ->"<< y_mult<< endl;
-    //cout << "filterout  ->" << filter_out << endl;
-    filter_out = scaleMatto255(filter_out);
-    // filter_out = filter_out*-1;
-    // cout <<"filterout  ->"<< filter_out<< endl;
-
-    // cv::Mat add_to_mat = cv::Mat(filter_out.size(), CV_64FC1, Scalar(255));
+  // cv::Mat add_to_mat = cv::Mat(filter_out.size(), CV_64FC1, Scalar(255));
     // cout <<"addout  ->"<< add_to_mat<< endl;
     // filter_out = filter_out+add_to_mat;
 //    cout << "filterout  ->" << filter_out << endl;
-    filter_out = convertTo_CV_8U(filter_out);
+  filter_out = convertTo_CV_8U(filter_out);
     //cout << "filterout  ->" << filter_out << endl;
-  }
+ 
   m_filter = filter_out;
   return;
 }
@@ -172,10 +202,9 @@ cv::Mat Filter::integral_array (int size_, int partial_steps_, int exp_){
 
 map<int, vector<cv::Mat>>Filter::get_intgrl_array_map(int size_from, int size_to, int iterations_){
 
-    int max_exponent = 12;
     map<int,vector<cv::Mat>> integralMap;
     for(int i= size_from; i <= size_to; i++ ){
-    for(int j = 1 ; j <= max_exponent; j++){
+    for(int j = 1 ; j <= m_exp_max; j++){
       vector<cv::Mat> tempVec;
       if ( integralMap.find(i) == integralMap.end() ) {
         cout << " key " << i <<" not found: inserting map" <<endl;
@@ -199,20 +228,18 @@ map<int, vector<cv::Mat>>Filter::get_intgrl_array_map(int size_from, int size_to
 
 void Filter::intg_array_map(int size_from, int size_to, int iterations_){
 
-    int max_exponent = 12;
-  //  map<int,vector<cv::Mat>> m_cosin_map;
     for(int i= size_from; i <= size_to; i++ ){
-    for(int j = 1 ; j <= max_exponent; j++){
+    for(int j = 1 ; j <= m_exp_max; j++){
       vector<cv::Mat> tempVec;
       if ( m_cosin_map.find(i) == m_cosin_map.end() ) {
-        //cout << " key " << i <<" not found. adding size "<< i<<"cosin^"<<j<<" ." <<endl;
+        cout << " key " << i <<" not found. adding size "<< i<<"cosin^"<<j<<" ." <<endl;
         cv::Mat mat_temp = cv::Mat(1,i, CV_64FC1);
         mat_temp = integral_array(i,iterations_, j);
         tempVec.push_back(mat_temp);
         m_cosin_map.insert(std::pair<int,vector<cv::Mat>>(i, tempVec));
 
     } else {
-        //cout << "found before size "<<  i << ", adding cosin^"<<j<<"]" ;
+        cout << "found before size "<<  i << ", adding cosin^"<<j<<"]" ;
         cv::Mat mat_temp = cv::Mat(1,i, CV_64FC1);
         mat_temp = integral_array(i,iterations_, j);
         tempVec.push_back(mat_temp);

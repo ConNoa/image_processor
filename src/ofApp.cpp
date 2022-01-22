@@ -53,8 +53,8 @@ void ofApp::setup_gui(){
 	sample_slider_1.add(m_superpix_res.set("Superpixel Res.", 100, 0, 100));
 	sample_slider_1.add(superpixel_width.set("S.Pix width", 10, 1, 19));
 	sample_slider_1.add(superpixel_height.set("S.Pix height", 10, 1, 19));
-	sample_slider_1.add(cosx_e.set("Cosx^", 1, 1, 15));
-	sample_slider_1.add(cosy_e.set("Cosy^", 1, 1, 15));
+	sample_slider_1.add(cosx_e.set("Cosx^", 1, 0, 15));
+	sample_slider_1.add(cosy_e.set("Cosy^", 1, 0, 15));
 	sample_slider_1.add(border_width.set("Border width", 0, 0, 5));
 	sample_slider_1.add(border_height.set("Border height", 0, 0, 5));
 	gui.setup(sample_slider_1, "settings.xml", pos_s1_x, pos_s1_y);
@@ -140,7 +140,10 @@ void ofApp::draw(){
 	if(pixel_filter_exists){
 		filterImage.draw(100, 100, 600, 600);
 	}
-*/
+*/	
+	ofBackground(0,0, 255);
+
+
 	ofSetColor(255);
 
 	test_img.update();
@@ -171,23 +174,27 @@ void ofApp::draw(){
 void ofApp::draw_filterwindow(){
 	int x_ = 300;
 	int y_ = 50;
-	int wi_ = 150;
-	int he_ = 150;
+	int wi_ = 250;
+	int he_ = 250;
 	int fp_w = wi_/dim_SP_ges_x;
 	int fp_h = he_/dim_SP_ges_y;
-	Mat filter_temp = pix_filter.get_FMat2D();
+	int scale_fak = min(fp_w, fp_h);
+	Mat filter_temp = pix_filter.get_FMat2D(superpixel_width, superpixel_height, cosx_e, cosy_e);
 	//cout << filter_temp << endl;
 
 	ofSetRectMode(OF_RECTMODE_CORNER);
 	ofBeginShape();
-	ofSetColor(255);
-	ofDrawRectangle(x_, y_, fp_w*dim_SP_ges_x, fp_h*dim_SP_ges_y);
+	//ofSetColor(255);
+	//ofDrawRectangle(x_, y_, fp_w*dim_SP_ges_x, fp_h*dim_SP_ges_y);
 	for (int i = 0; i < superpixel_width; i++)
 	{
 		for (int j = 0; j < superpixel_height; j++)
 		{
+			//Mat filter_temp = pix_filter.get_FMat2D(superpixel_width, superpixel_height, cosx_e, cosy_e);
 			int field_alpha = filter_temp.at<uchar>(i,j);
 			ofSetColor(field_alpha);
+			//draw rectangle for Pixel
+			//with (pos_x, pos_y, breite, höhe)
 			ofDrawRectangle(x_ + fp_w * i, y_ + fp_h * j, fp_w, fp_h);
 		}
 	}
@@ -200,8 +207,6 @@ void ofApp::draw_filterwindow(){
 	
 }
 
-
-//-------added--
 void ofApp::exit(){
 //	int_sl3.removeListener(this, &ofApp::cutResChanged);
 
