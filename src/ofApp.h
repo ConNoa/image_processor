@@ -18,7 +18,7 @@ class ofApp : public ofBaseApp{
 		void setup();
 		void update();
 		void draw();
-
+		void draw_filterwindow();
 		void exit();
 
 		void keyPressed(int key);
@@ -44,15 +44,24 @@ class ofApp : public ofBaseApp{
 
 
 		ofEventListener listenerMouse;// debug mouse clicks
+		ofxPanel			gui;
+		float pos_s1_x;
+		float pos_s1_y;
+		float pos_s2_x;
+		float pos_s2_y;
+		float pos_s3_x;
+		float pos_s3_y;
+		ofxPanel gui_s2;
+		ofxPanel 			gui_s3;
 
-		ofParameterGroup	main_group;
-		ofParameterGroup	slider_group;
-		ofxPanel					gui;
-//-----sampleparameters
- 		ofParameterGroup	sample_slider_1;
+		ofParameterGroup	sample_slider_1;
+		ofParameterGroup 	command_slider_2;
+		ofParameterGroup 	info_slider_3;
+
+		//-----sampleparameters
 		ofParameter<int>	m_sampleamm_abs;
-		ofParameter<float>m_sampleamm_rel;
-	  ofParameter<float>m_superpix_res;
+		ofParameter<float>	m_sampleamm_rel;
+	  	ofParameter<float>	m_superpix_res;
 		ofParameter<int>	superpixel_width;
 		ofParameter<int>	superpixel_height;
 		ofParameter<int>	cosx_e;
@@ -60,28 +69,29 @@ class ofApp : public ofBaseApp{
 		ofParameter<int>	border_width;
 		ofParameter<int>	border_height;
 
+
 //-----command-GUI
-		ofParameterGroup	command_slider_2;
-		ofParameter<bool> compute_filter;
+
+		
+		ofParameter<bool> 	compute_filter;
 		ofParameter<bool>	randomsamp;
 		ofParameter<bool>	switch_screen1;
-		ofParameter<bool> switch_screen2;
+		ofParameter<bool> 	switch_screen2;
 
 
 //----informational-GUI
-		ofxPanel 					gui_s3;
-		ofParameterGroup	info_slider_3;
+
+		ofParameter<int> 			dim_SP_ges_x;
+		ofParameter<int>			dim_SP_ges_y;
 		ofxLabel 					dim_monitor1;
-		ofxLabel 					dim_monitor2;
-		ofxLabel 					dim_monitor3;
 		ofxLabel 					label;
 
 //----testGUI
-		ofxPanel								gui_s4;
-		ofParameterGroup				test_slider_4;
-		ofParameter<int> 				int_sl1;
-		ofParameter<int> 				int_sl2;
-		ofParameter<int>				int_sl3;
+/*		ofxPanel					gui_s4;
+		ofParameterGroup			test_slider_4;
+		ofParameter<int> 			int_sl1;
+		ofParameter<int> 			int_sl2;
+		ofParameter<int>			int_sl3;
 		ofParameter<float> 			flt_sl1;
 		ofParameter<float>	 		flt_sl2;
 		ofParameter<float>			flt_sl3;    //100% complete resolution
@@ -91,13 +101,13 @@ class ofApp : public ofBaseApp{
 		ofParameter<ofVec3f> 		vec3_sl1;
 		ofParameter<ofVec4f>		vec4_sl1;
 
-		ofxToggle 							tog1;
-		ofxButton 							but1;
+		ofxToggle 					tog1;
+		ofxButton 					but1;
 //----------------Inputfields
-		ofxIntField				intField;
-		ofxFloatField		 	floatField;
-		ofxTextField 			textField;
-
+		ofxIntField					intField;
+		ofxFloatField		 		floatField;
+		ofxTextField 				textField;
+*/
 //-----------some FLAGS
 		bool 							filter_loaded;
 		bool 							filter_exists;
