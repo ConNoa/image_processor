@@ -1,14 +1,13 @@
 #pragma once
 
+#include "ofxDatGui.h"
 #include "ofMain.h"
 #include "ofxGui.h"
 #include <chrono>
 #include "ofxCv.h"
 #include "ofxOpenCv.h"
 #include <opencv2/highgui.hpp>
-
 #include "filter.hpp"
-
 
 using namespace ofxCv;
 

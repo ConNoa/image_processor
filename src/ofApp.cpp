@@ -7,9 +7,7 @@ void ofApp::setup(){
 
 //----------LISTENER----------------------------------------------
 	//
-	int_sl3.addListener(this, &ofApp::cutResChanged, OF_EVENT_ORDER_AFTER_APP);
 
-  //ofAddListener(, this, &ofApp::);
 
 //-------------GÚI INTERFACE------------------------------------------------
 	sample_slider_1.setName("sample-parameters");
@@ -39,29 +37,36 @@ void ofApp::setup(){
 	//		 gui_s3.setup(info_slider_3);
 //-------------------------------------------------------------------------
 	test_slider_4.setName(" sliders for testing");
-	test_slider_4.add(int_sl1.set("int_sl", 0, 1, 100));
+	/*test_slider_4.add(int_sl1.set("int_sl", 0, 1, 100));
 	test_slider_4.add(int_sl2.set("int_sl", 0, 1, 100));
 	test_slider_4.add(int_sl3.set("int_sl", 0, 1, 100));
 	test_slider_4.add(flt_sl1.set("flt_sl", 1, 1, 3.4159));
 	test_slider_4.add(flt_sl2.set("flt_sl", 1, 1, 3.4159));
 	test_slider_4.add(flt_sl3.set("flt_sl", 1, 1, 3.4159));
-	test_slider_4.add(clr_sl1.set("clr_sl1" , ofVec3f(125, 150, 35)));/*, ofVec3f(255, 150, 120), ofVec3f(70, 150, 0)));*/
-	test_slider_4.add(vec2_sl1.set("vec2_sl1", ofVec2f(0,0), ofVec2f(0,0), ofVec2f(ofGetWidth(),ofGetHeight())));
+*/
+	test_slider_4.add(clr_sl1.set("clr_sl1" , ofVec3f(125, 150, 35), ofVec3f(255, 150, 120), ofVec3f(70, 150, 0)));
+/*	test_slider_4.add(vec2_sl1.set("vec2_sl1", ofVec2f(0,0), ofVec2f(0,0), ofVec2f(ofGetWidth(),ofGetHeight())));
 	test_slider_4.add(vec2_sl2.set("vec2_sl2", ofVec2f(0,0), ofVec2f(0,0), ofVec2f(0,0)));
 	test_slider_4.add(vec3_sl1.set("vec3_sl1", ofVec3f(100, 150, 90), ofVec3f(0, 0, 100), ofVec3f(255, 255, 255)));
 	test_slider_4.add(vec4_sl1.set("vec4_sl1", ofVec4f(50, 50, 50, 50), ofVec4f(0,0,0,0), ofVec4f(255, 255, 255, 255)));
+*/
 	//gui_s4.setup(test_slider_4);
-	gui.add(tog1.setup("toggle1", true));
+/*	gui.add(tog1.setup("toggle1", true));
 	gui.add(but1.setup("but1",true));
 
 	gui.add(intField.setup("int field", 100, 0, 100));
 	gui.add(floatField.setup("float field", 100.0, 0, 100));
 	gui.add(textField.setup("text field", "Probetext"));
-
+*/
 	slider_group.add(sample_slider_1);
-	slider_group.add(test_slider_4);
+	slider_group.add(gui);
 	gui.add(slider_group);
 	gui.setup();
+
+	//fxDatGui* nui = new ofxDatGui( 300, 300 );
+	ofxDatGui* nui = new ofxDatGui( ofxDatGuiAnchor::BOTTOM_RIGHT );
+	nui->addButton("Click!");
+//	ofxDatGuiMatrix* myMatrix = ("MATRIX", 100, true);
 
 //-----------------------------------------------------------------------------
 //-----------setting up environment--------------------------------------------
@@ -83,11 +88,11 @@ void ofApp::setup(){
 
 	test = lena_mat.clone();
 	submat = cv::Mat(lena_mat, cv::Rect(x_roi, y_roi, width_roi, height_roi));
-
+	cout << "Testmat created"<<submat.cols<<"   "<<submat.rows<< endl;
 	cout << lena_mat.channels() <<endl;
 	cout << submat<< endl;
 
-
+	cout << "Testmat created"<<lena_mat.cols<<"   "<<lena_mat.rows<< endl;
 	toOf(submat, roi_1);
 
 	roi_1.update();
@@ -105,7 +110,7 @@ void ofApp::update(){
 }
 
 void ofApp::draw(){
-	ofSetColor(10);
+	ofSetColor(255);
 
 	if(pixel_filter_exists){
 		filterImage.draw(100, 100, 600, 600);
@@ -124,9 +129,9 @@ void ofApp::draw(){
 	// should the gui control hiding?
 	if(!bHide){
 		gui.draw();
-		ofDrawBitmapString( ofToString( ofGetFrameRate() ), 250, 20 );
-		ofDrawBitmapString( ofToString( mouse_x ), 250, 40 );
-		ofDrawBitmapString( ofToString( mouse_y ), 250, 60 );
+		// ofDrawBitmapString( ofToString( ofGetFrameRate() ), 250, 20 );
+		// ofDrawBitmapString( ofToString( mouse_x ), 250, 40 );
+		// ofDrawBitmapString( ofToString( mouse_y ), 250, 60 );
 
 	}
 }
@@ -134,7 +139,7 @@ void ofApp::draw(){
 
 //-------added--
 void ofApp::exit(){
-	int_sl3.removeListener(this, &ofApp::cutResChanged);
+//	int_sl3.removeListener(this, &ofApp::cutResChanged);
 
 	return;
 }

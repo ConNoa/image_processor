@@ -4,3 +4,4 @@ ofxOpenCv
 ofxOsc
 ofxThreadedImageLoader
 ofxVectorGraphics
+ofxDatGui
