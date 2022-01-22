@@ -16,6 +16,12 @@ class ofApp : public ofBaseApp{
 
 	public:
 		void setup();
+		void setup_gui();
+		void setup_filter();
+
+
+
+
 		void update();
 		void draw();
 		void draw_filterwindow();

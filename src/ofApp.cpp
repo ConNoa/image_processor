@@ -10,86 +10,13 @@ void ofApp::setup(){
 //----------LISTENER----------------------------------------------
 	//
 
-
-//-------------GÚI INTERFACE------------------------------------------------
-	pos_s1_x = 10;
-	pos_s1_y = 100;
-	pos_s2_x = 10;
-	pos_s2_y = 350;
-	pos_s3_x = 10;
-	pos_s3_y = 10;
-
-	sample_slider_1.setName("sample-parameters");
-	sample_slider_1.add(m_sampleamm_abs.set("Sampleammount ABS", 1000, 10, 200000));
-	sample_slider_1.add(m_sampleamm_rel.set("Sampleammount REL", 10, 0, 100));
-	sample_slider_1.add(m_superpix_res.set("Superpixel Res.", 100, 0, 100));
-	sample_slider_1.add(superpixel_width.set("S.Pix width", 5, 1, 19));
-	sample_slider_1.add(superpixel_height.set("S.Pix height", 1, 1, 19));
-	sample_slider_1.add(cosx_e.set("Cosx^", 1, 1, 15));
-	sample_slider_1.add(cosy_e.set("Cosy^", 1, 1, 15));
-	sample_slider_1.add(border_width.set("Border width", 2, 0, 5));
-	sample_slider_1.add(border_height.set("Border height", 0, 0, 5));
-	gui.setup(sample_slider_1, "settings.xml", pos_s1_x, pos_s1_y);
-
-	//-------------------------------------------------------------------------
-	command_slider_2.setName("command GUI");
-	command_slider_2.add(compute_filter.set("Compute Filter"));
-	command_slider_2.add(randomsamp.set("Sample Random Points"));
-	command_slider_2.add(switch_screen1.set("Screen 1 Switch"));
-	command_slider_2.add(switch_screen2.set("Screen 2 Switch"));
-	gui_s2.setup(command_slider_2, "settings.xml", pos_s2_x, pos_s2_y);
-//-------------------------------------------------------------------------
-	info_slider_3.setName("informational GUI");
-	dim_monitor1.setup("screen size screen 1", "this is now on screen",120.0f, 20.0f);
-	dim_SP_ges_x.setName("Breite gesamt");
-	dim_SP_ges_x = superpixel_width+border_width;
-	info_slider_3.add(dim_SP_ges_x);
-	dim_SP_ges_y.setName("Breite gesamt");
-	dim_SP_ges_y = superpixel_height+border_height;
-	info_slider_3.add(dim_SP_ges_y);
-	//info_slider_3.add(dim_monitor2.setup("screen size screen 2"));
-	//info_slider_3.add(dim_monitor3.setup("screen size screen 3"));
-	//info_slider_3.add(label.setup("hierkommt was hilfreiches rein", (ofToString(ofGetWidth())+"x"+ofToString(ofGetHeight()))));
-	gui_s3.setup(info_slider_3, "settings.xml", pos_s3_x, pos_s3_y);
-
-//-------------------------------------------------------------------------
-	//test_slider_4.setName(" sliders for testing");
-	/*test_slider_4.add(int_sl1.set("int_sl", 0, 1, 100));
-	test_slider_4.add(int_sl2.set("int_sl", 0, 1, 100));
-	test_slider_4.add(int_sl3.set("int_sl", 0, 1, 100));
-	test_slider_4.add(flt_sl1.set("flt_sl", 1, 1, 3.4159));
-	test_slider_4.add(flt_sl2.set("flt_sl", 1, 1, 3.4159));
-	test_slider_4.add(flt_sl3.set("flt_sl", 1, 1, 3.4159));
-*/
-//	test_slider_4.add(clr_sl1.set("clr_sl1" , ofVec3f(125, 150, 35), ofVec3f(255, 150, 120), ofVec3f(70, 150, 0)));
-/*	test_slider_4.add(vec2_sl1.set("vec2_sl1", ofVec2f(0,0), ofVec2f(0,0), ofVec2f(ofGetWidth(),ofGetHeight())));
-	test_slider_4.add(vec2_sl2.set("vec2_sl2", ofVec2f(0,0), ofVec2f(0,0), ofVec2f(0,0)));
-	test_slider_4.add(vec3_sl1.set("vec3_sl1", ofVec3f(100, 150, 90), ofVec3f(0, 0, 100), ofVec3f(255, 255, 255)));
-	test_slider_4.add(vec4_sl1.set("vec4_sl1", ofVec4f(50, 50, 50, 50), ofVec4f(0,0,0,0), ofVec4f(255, 255, 255, 255)));
-*/
-	//gui_s4.setup(test_slider_4);
-/*	gui.add(tog1.setup("toggle1", true));
-	gui.add(but1.setup("but1",true));
-
-	gui.add(intField.setup("int field", 100, 0, 100));
-	gui.add(floatField.setup("float field", 100.0, 0, 100));
-	gui.add(textField.setup("text field", "Probetext"));
-*/
-	//slider_group.add(sample_slider_1);
-	//slider_group.add(gui);
-	//gui.add(slider_group);
-
-	//fxDatGui* nui = new ofxDatGui( 300, 300 );
-	//ofxDatGui* nui = new ofxDatGui( ofxDatGuiAnchor::BOTTOM_RIGHT );
-	//nui->addButton("Click!");
-//	ofxDatGuiMatrix* myMatrix = ("MATRIX", 100, true);
-
+	setup_gui();
+	setup_filter();
 //-----------------------------------------------------------------------------
 //-----------setting up environment--------------------------------------------
 //-----------------------------------------------------------------------------
 	pix_filter.intg_array_map(1, 20, 1000);
 	bHide = false;
-	filter_exists = false;
 	filter_loaded = false;
 	pixel_filter_exists = false;
  	x_roi= 100;
@@ -117,6 +44,87 @@ void ofApp::setup(){
 	ofEnableAlphaBlending();
 }
 
+void ofApp::setup_gui(){
+
+	//-------------GÚI INTERFACE------------------------------------------------
+	pos_s1_x = 10;
+	pos_s1_y = 100;
+	pos_s2_x = 10;
+	pos_s2_y = 350;
+	pos_s3_x = 10;
+	pos_s3_y = 10;
+
+	sample_slider_1.setName("sample-parameters");
+	sample_slider_1.add(m_sampleamm_abs.set("Sampleammount ABS", 1000, 10, 200000));
+	sample_slider_1.add(m_sampleamm_rel.set("Sampleammount REL", 10, 0, 100));
+	sample_slider_1.add(m_superpix_res.set("Superpixel Res.", 100, 0, 100));
+	sample_slider_1.add(superpixel_width.set("S.Pix width", 1, 1, 19));
+	sample_slider_1.add(superpixel_height.set("S.Pix height", 1, 1, 19));
+	sample_slider_1.add(cosx_e.set("Cosx^", 1, 1, 15));
+	sample_slider_1.add(cosy_e.set("Cosy^", 1, 1, 15));
+	sample_slider_1.add(border_width.set("Border width", 0, 0, 5));
+	sample_slider_1.add(border_height.set("Border height", 0, 0, 5));
+	gui.setup(sample_slider_1, "settings.xml", pos_s1_x, pos_s1_y);
+
+	//-------------------------------------------------------------------------
+	command_slider_2.setName("command GUI");
+	command_slider_2.add(compute_filter.set("Compute Filter"));
+	command_slider_2.add(randomsamp.set("Sample Random Points"));
+	command_slider_2.add(switch_screen1.set("Screen 1 Switch"));
+	command_slider_2.add(switch_screen2.set("Screen 2 Switch"));
+	gui_s2.setup(command_slider_2, "settings.xml", pos_s2_x, pos_s2_y);
+	//-------------------------------------------------------------------------
+	info_slider_3.setName("informational GUI");
+	dim_monitor1.setup("screen size screen 1", "this is now on screen", 120.0f, 20.0f);
+	dim_SP_ges_x.setName("Breite gesamt");
+	dim_SP_ges_x = superpixel_width + border_width;
+	info_slider_3.add(dim_SP_ges_x);
+	dim_SP_ges_y.setName("Breite gesamt");
+	dim_SP_ges_y = superpixel_height + border_height;
+	info_slider_3.add(dim_SP_ges_y);
+	// info_slider_3.add(dim_monitor2.setup("screen size screen 2"));
+	// info_slider_3.add(dim_monitor3.setup("screen size screen 3"));
+	// info_slider_3.add(label.setup("hierkommt was hilfreiches rein", (ofToString(ofGetWidth())+"x"+ofToString(ofGetHeight()))));
+	gui_s3.setup(info_slider_3, "settings.xml", pos_s3_x, pos_s3_y);
+
+	//-------------------------------------------------------------------------
+	// test_slider_4.setName(" sliders for testing");
+	/*test_slider_4.add(int_sl1.set("int_sl", 0, 1, 100));
+	test_slider_4.add(int_sl2.set("int_sl", 0, 1, 100));
+	test_slider_4.add(int_sl3.set("int_sl", 0, 1, 100));
+	test_slider_4.add(flt_sl1.set("flt_sl", 1, 1, 3.4159));
+	test_slider_4.add(flt_sl2.set("flt_sl", 1, 1, 3.4159));
+	test_slider_4.add(flt_sl3.set("flt_sl", 1, 1, 3.4159));
+*/
+	//	test_slider_4.add(clr_sl1.set("clr_sl1" , ofVec3f(125, 150, 35), ofVec3f(255, 150, 120), ofVec3f(70, 150, 0)));
+	/*	test_slider_4.add(vec2_sl1.set("vec2_sl1", ofVec2f(0,0), ofVec2f(0,0), ofVec2f(ofGetWidth(),ofGetHeight())));
+		test_slider_4.add(vec2_sl2.set("vec2_sl2", ofVec2f(0,0), ofVec2f(0,0), ofVec2f(0,0)));
+		test_slider_4.add(vec3_sl1.set("vec3_sl1", ofVec3f(100, 150, 90), ofVec3f(0, 0, 100), ofVec3f(255, 255, 255)));
+		test_slider_4.add(vec4_sl1.set("vec4_sl1", ofVec4f(50, 50, 50, 50), ofVec4f(0,0,0,0), ofVec4f(255, 255, 255, 255)));
+	*/
+	// gui_s4.setup(test_slider_4);
+	/*	gui.add(tog1.setup("toggle1", true));
+		gui.add(but1.setup("but1",true));
+
+		gui.add(intField.setup("int field", 100, 0, 100));
+		gui.add(floatField.setup("float field", 100.0, 0, 100));
+		gui.add(textField.setup("text field", "Probetext"));
+	*/
+	// slider_group.add(sample_slider_1);
+	// slider_group.add(gui);
+	// gui.add(slider_group);
+
+	// fxDatGui* nui = new ofxDatGui( 300, 300 );
+	// ofxDatGui* nui = new ofxDatGui( ofxDatGuiAnchor::BOTTOM_RIGHT );
+	// nui->addButton("Click!");
+	//	ofxDatGuiMatrix* myMatrix = ("MATRIX", 100, true);
+}
+
+void ofApp::setup_filter(){
+	pix_filter.createFilter_xy(superpixel_width, superpixel_height, cosx_e, cosy_e);
+	filter_exists = true;
+}
+
 void ofApp::update(){
 	if(filter_exists && !filter_loaded){
 	actual_filterdata	= cv::Mat(superpixel_width, superpixel_height, CV_8UC1);
@@ -141,7 +149,8 @@ void ofApp::draw(){
 	roi_1.update();
 	roi_1.draw(200,10);
 
-
+	// hello constantin
+	
 	draw_filterwindow();
 	//int cTr = (int)(399/int_sl1);
 	//cv::Rect roi_rect = cv::Rect(mouse_x, mouse_y, x_roi, cTr, width_roi , height_roi);
@@ -162,14 +171,14 @@ void ofApp::draw(){
 void ofApp::draw_filterwindow(){
 	int x_ = 300;
 	int y_ = 50;
-	int wi_ = 250;
-	int he_ = 250;
+	int wi_ = 150;
+	int he_ = 150;
 	int fp_w = wi_/dim_SP_ges_x;
 	int fp_h = he_/dim_SP_ges_y; 
 	ofSetRectMode(OF_RECTMODE_CORNER);
 	ofBeginShape();
 	ofSetColor(255);
-	ofDrawRectangle(x_, y_, wi_, he_);
+	ofDrawRectangle(x_, y_, fp_w*dim_SP_ges_x, fp_h*dim_SP_ges_y);
 	for (int i = 0; i < superpixel_width; i++)
 	{
 		for (int j = 0; j < superpixel_height; j++)
@@ -195,7 +204,6 @@ void ofApp::exit(){
 
 	return;
 }
-
 
 
 void ofApp::keyPressed(int key){
