@@ -521,6 +521,7 @@ obj/linux64/Release/src/main.o: \
  /home/pixel/OF/libs/openFrameworks/3d/ofCamera.h \
  /home/pixel/OF/libs/openFrameworks/3d/ofEasyCam.h \
  /home/pixel/0_image_processing/image_processor/src/ofApp.h \
+ /home/pixel/0_image_processing/image_processor/src/WinApp.h \
  /home/pixel/OF/addons/ofxDatGui/src/ofxDatGui.h \
  /home/pixel/OF/addons/ofxDatGui/src/components/ofxDatGuiGroups.h \
  /home/pixel/OF/addons/ofxDatGui/src/components/ofxDatGuiLabel.h \
@@ -1772,6 +1773,8 @@ obj/linux64/Release/src/main.o: \
 /home/pixel/OF/libs/openFrameworks/3d/ofEasyCam.h:
 
 /home/pixel/0_image_processing/image_processor/src/ofApp.h:
+
+/home/pixel/0_image_processing/image_processor/src/WinApp.h:
 
 /home/pixel/OF/addons/ofxDatGui/src/ofxDatGui.h:
 
