@@ -181,6 +181,8 @@ void ofApp::draw_filterwindow(){
 	int scale_fak = min(fp_w, fp_h);
 	Mat filter_temp = pix_filter.get_FMat2D(superpixel_width, superpixel_height, cosx_e, cosy_e);
 	//cout << filter_temp << endl;
+	fp_w = 20;
+	fp_h = fp_w;
 
 	ofSetRectMode(OF_RECTMODE_CORNER);
 	ofBeginShape();
@@ -191,7 +193,7 @@ void ofApp::draw_filterwindow(){
 		for (int j = 0; j < superpixel_height; j++)
 		{
 			//Mat filter_temp = pix_filter.get_FMat2D(superpixel_width, superpixel_height, cosx_e, cosy_e);
-			int field_alpha = filter_temp.at<uchar>(i,j);
+			int field_alpha = filter_temp.at<uchar>(j,i);
 			ofSetColor(field_alpha);
 			//draw rectangle for Pixel
 			//with (pos_x, pos_y, breite, höhe)

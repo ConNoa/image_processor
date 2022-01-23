@@ -17,6 +17,7 @@ class ofApp : public ofBaseApp{
 
 	public:
 		void setup();
+		void setupMain();
 		void setup_gui();
 		void setup_filter();
 
@@ -25,6 +26,8 @@ class ofApp : public ofBaseApp{
 
 		void update();
 		void draw();
+		void drawMain();
+		void drawPresentWindow();
 		void draw_filterwindow();
 		void exit();
 
@@ -40,6 +43,8 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
+
+		shared_ptr<GuiApp> gui;
 
 		cv::Mat ofImgToCVMat(ofImage const& img_in);
 
