@@ -1,8 +1,9 @@
 #include "ofMain.h"
 #include "ofApp.h"
-#include <opencv2/highgui.hpp>
-#include "WinApp.h"
+#include "GuiApp.hpp"
 #include "ofAppGLFWWindow.h"
+#include <memory>
+
 //========================================================================
 /*
 int main( ){
@@ -45,48 +46,32 @@ int main()
 */
 
 // https://github.com/whg/ofxNSWindower
-
-
-
 //========================================================================
 int main()
 {
-	ofGLFWWindowSettings settings_ex2;
-	ofGLFWWindowSettings settings_ex1;
 	ofGLFWWindowSettings settings_main;
 
-
-
-	settings_ex1.setSize(1920, 1028);
-	settings_ex1.setPosition(glm::vec2(1920, 1028));
-	settings_ex1.resizable = false;
-	settings_ex1.monitor = 1;
-	shared_ptr<ofAppBaseWindow> extern1_Window = ofCreateWindow(settings_ex1);
-
-	settings_ex2.setSize(1920, 1028);
-	settings_ex2.setPosition(glm::vec2(1920, 0));
-	settings_ex2.resizable = false;
-	settings_ex1.monitor = 2;
-	settings_ex2.decorated = true;
-	shared_ptr<ofAppBaseWindow> extern2_Window = ofCreateWindow(settings_ex2);
+	settings_main.setSize(1920, 1028);
+	settings_main.setPosition(glm::vec2(1920, 1028));
+	settings_main.resizable = false;
+	settings_main.monitor = 1;
+	shared_ptr<ofAppBaseWindow> extern1_Window = ofCreateWindow(settings_main);
 
 	settings_main.setSize(1600, 1028);
 	settings_main.setPosition(glm::vec2(0, 1028));
 	settings_main.monitor = 0;
 	settings_main.resizable = true;
 	settings_main.shareContextWith = extern1_Window;
-	settings_main.shareContextWith = extern2_Window;
-
 	shared_ptr<ofAppBaseWindow> mainWindow = ofCreateWindow(settings_main);
 
-	shared_ptr<ofApp> mainApp(new ofApp);
-	shared_ptr<WinApp> ex1App(new WinApp);
-	shared_ptr<WinApp> ex2App(new WinApp);
-	mainApp->ex1 = ex1App;
-	mainApp->ex2 = ex2App;
 
-	ofRunApp(extern1_Window, ex1App);
-	ofRunApp(extern2_Window, ex2App);
+	shared_ptr<ofApp> mainApp(new ofApp);
+	shared_ptr<GuiApp> guiApp(new GuiApp);
+
+	mainApp->gui = guiApp;
+
+
+	ofRunApp(extern1_Window, guiApp);
 	ofRunApp(mainWindow, mainApp);
 	ofRunMainLoop();
 }

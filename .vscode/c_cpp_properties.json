@@ -66,7 +66,6 @@
                 "/home/pixel/OF/libs/openFrameworks",
                 "/home/pixel/OF/libs/openFrameworks/events",
                 "/home/pixel/OF/libs/openFrameworks/utils",
-                "/usr/home/pixel/0_imageprocessing/image_processor/src",
                 "/usr/include",
                 "/usr/local/include",
                 "/usr/include/c++/5",
@@ -111,7 +110,14 @@
                 "/usr/include/cairo",
                 "/usr/include/gstreamer-1.0",
                 "/usr/include/glib-2.0",
-                "${workspaceRoot}"
+                "${workspaceRoot}",
+                "/home/pixel/OF/libs/glm/include",
+                "/home/pixel/OF/libs/json/include",
+                "/home/pixel/0_image_processing/image_processor/**",
+                "/home/pixel/0_image_processing/image_processor/src",
+                "/home/pixel/0_image_processing/image_processor/bin",
+                "/home/pixel/OF/libs/openFrameworks/**",
+                "/home/pixel/OF/libs/openFrameworks/**"
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
@@ -125,8 +131,8 @@
                 ]
             },
             "intelliSenseMode": "clang-x64",
-            "compilerPath": "/usr/local/bin/gcc-8",
-            "cStandard": "c11",
+            "compilerPath": "/usr/bin/gcc-9",
+            "cStandard": "c17",
             "cppStandard": "c++17"
         },
         {
@@ -170,7 +176,7 @@
                 "path": [
                     "${workspaceRoot}/../../../libs",
                     "${workspaceRoot}/../../../addons",
-                    "${workspaceRoot}/../../../libs/openFrameworks"    
+                    "${workspaceRoot}/../../../libs/openFrameworks"
                 ]
             },
             "intelliSenseMode": "clang-x64",

@@ -1,7 +1,6 @@
 obj/linux64/Release/src/ofApp.o: \
  /home/pixel/0_image_processing/image_processor/src/ofApp.cpp \
  /home/pixel/0_image_processing/image_processor/src/ofApp.h \
- /home/pixel/0_image_processing/image_processor/src/WinApp.h \
  /home/pixel/OF/libs/openFrameworks/ofMain.h \
  /home/pixel/OF/libs/openFrameworks/utils/ofConstants.h \
  /home/pixel/OF/libs/tess2/include/tesselator.h \
@@ -522,27 +521,7 @@ obj/linux64/Release/src/ofApp.o: \
  /home/pixel/OF/libs/openFrameworks/3d/of3dUtils.h \
  /home/pixel/OF/libs/openFrameworks/3d/ofCamera.h \
  /home/pixel/OF/libs/openFrameworks/3d/ofEasyCam.h \
- /home/pixel/OF/addons/ofxDatGui/src/ofxDatGui.h \
- /home/pixel/OF/addons/ofxDatGui/src/components/ofxDatGuiGroups.h \
- /home/pixel/OF/addons/ofxDatGui/src/components/ofxDatGuiLabel.h \
- /home/pixel/OF/addons/ofxDatGui/src/core/ofxDatGuiComponent.h \
- /home/pixel/OF/addons/ofxDatGui/src/core/ofxDatGuiIntObject.h \
- /home/pixel/OF/addons/ofxDatGui/src/themes/ofxDatGuiThemes.h \
- /home/pixel/OF/addons/ofxDatGui/src/themes/ofxDatGuiTheme.h \
- /home/pixel/OF/addons/ofxDatGui/src/libs/ofxSmartFont/ofxSmartFont.h \
- /home/pixel/OF/addons/ofxDatGui/src/core/ofxDatGuiEvents.h \
- /home/pixel/OF/addons/ofxDatGui/src/core/ofxDatGuiConstants.h \
- /home/pixel/OF/addons/ofxDatGui/src/components/ofxDatGuiButton.h \
- /home/pixel/OF/addons/ofxDatGui/src/components/ofxDatGuiSlider.h \
- /home/pixel/OF/addons/ofxDatGui/src/components/ofxDatGuiTextInputField.h \
- /home/pixel/OF/addons/ofxDatGui/src/components/ofxDatGuiTextInput.h \
- /home/pixel/OF/addons/ofxDatGui/src/components/ofxDatGuiFRM.h \
- /home/pixel/OF/addons/ofxDatGui/src/components/ofxDatGui2dPad.h \
- /home/pixel/OF/addons/ofxDatGui/src/components/ofxDatGuiColorPicker.h \
- /home/pixel/OF/addons/ofxDatGui/src/components/ofxDatGuiMatrix.h \
- /home/pixel/OF/addons/ofxDatGui/src/components/ofxDatGuiTimeGraph.h \
- /home/pixel/OF/addons/ofxDatGui/src/components/ofxDatGuiScrollView.h \
- /home/pixel/OF/addons/ofxDatGui/src/components/ofxDatGuiControls.h \
+ /home/pixel/0_image_processing/image_processor/src/GuiApp.hpp \
  /home/pixel/OF/addons/ofxGui/src/ofxGui.h \
  /home/pixel/OF/addons/ofxGui/src/ofxToggle.h \
  /home/pixel/OF/addons/ofxGui/src/ofxBaseGui.h \
@@ -699,8 +678,6 @@ obj/linux64/Release/src/ofApp.o: \
  /home/pixel/0_image_processing/image_processor/src/filterkey.hpp
 
 /home/pixel/0_image_processing/image_processor/src/ofApp.h:
-
-/home/pixel/0_image_processing/image_processor/src/WinApp.h:
 
 /home/pixel/OF/libs/openFrameworks/ofMain.h:
 
@@ -1776,47 +1753,7 @@ obj/linux64/Release/src/ofApp.o: \
 
 /home/pixel/OF/libs/openFrameworks/3d/ofEasyCam.h:
 
-/home/pixel/OF/addons/ofxDatGui/src/ofxDatGui.h:
-
-/home/pixel/OF/addons/ofxDatGui/src/components/ofxDatGuiGroups.h:
-
-/home/pixel/OF/addons/ofxDatGui/src/components/ofxDatGuiLabel.h:
-
-/home/pixel/OF/addons/ofxDatGui/src/core/ofxDatGuiComponent.h:
-
-/home/pixel/OF/addons/ofxDatGui/src/core/ofxDatGuiIntObject.h:
-
-/home/pixel/OF/addons/ofxDatGui/src/themes/ofxDatGuiThemes.h:
-
-/home/pixel/OF/addons/ofxDatGui/src/themes/ofxDatGuiTheme.h:
-
-/home/pixel/OF/addons/ofxDatGui/src/libs/ofxSmartFont/ofxSmartFont.h:
-
-/home/pixel/OF/addons/ofxDatGui/src/core/ofxDatGuiEvents.h:
-
-/home/pixel/OF/addons/ofxDatGui/src/core/ofxDatGuiConstants.h:
-
-/home/pixel/OF/addons/ofxDatGui/src/components/ofxDatGuiButton.h:
-
-/home/pixel/OF/addons/ofxDatGui/src/components/ofxDatGuiSlider.h:
-
-/home/pixel/OF/addons/ofxDatGui/src/components/ofxDatGuiTextInputField.h:
-
-/home/pixel/OF/addons/ofxDatGui/src/components/ofxDatGuiTextInput.h:
-
-/home/pixel/OF/addons/ofxDatGui/src/components/ofxDatGuiFRM.h:
-
-/home/pixel/OF/addons/ofxDatGui/src/components/ofxDatGui2dPad.h:
-
-/home/pixel/OF/addons/ofxDatGui/src/components/ofxDatGuiColorPicker.h:
-
-/home/pixel/OF/addons/ofxDatGui/src/components/ofxDatGuiMatrix.h:
-
-/home/pixel/OF/addons/ofxDatGui/src/components/ofxDatGuiTimeGraph.h:
-
-/home/pixel/OF/addons/ofxDatGui/src/components/ofxDatGuiScrollView.h:
-
-/home/pixel/OF/addons/ofxDatGui/src/components/ofxDatGuiControls.h:
+/home/pixel/0_image_processing/image_processor/src/GuiApp.hpp:
 
 /home/pixel/OF/addons/ofxGui/src/ofxGui.h:
 

@@ -29,9 +29,9 @@ cv::Mat Filter::get_FMat2D(int x_, int y_, int cosx_, int cosy_)
 
   if ((m_cosin_map.count(x_) > 0) || m_cosin_map.count(y_) > 0)
   {
-    std::cout << "x_  Found" << std::endl;
+   // std::cout << "x_  Found" << std::endl;
     x_mult = get_FMat1D(x_, cosx_);
-    std::cout << "y_  Found" << std::endl;
+    //std::cout << "y_  Found" << std::endl;
     y_mult = get_FMat1D(y_, cosy_);
   
  /* else
