@@ -40,7 +40,7 @@ void ofApp::draw(){
 
 	ofSetColor(255);
 	test_img.update();
-	test_img.draw(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2, ofGetHeight()/2);
+	test_img.draw(ofGetWidth()/2, ofGetHeight()/2, test_img.getWidth()/3, test_img.getHeight()/3);
 
 	ofDrawBitmapString( ofToString( ofGetFrameRate() ), 250, 20 );
 	ofDrawBitmapString( ofToString( gui->mouse_x ), 250, 40 );

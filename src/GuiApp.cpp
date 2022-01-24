@@ -2,6 +2,7 @@
 #include "GuiApp.hpp"
 
 void GuiApp::setup(){
+	compute_filter.addListener(this, &GuiApp::filtermustload);
 	ofSetVerticalSync(true);
 	// Backgroundcolor
 	ofBackground(0, 0, 255);
@@ -45,7 +46,7 @@ void GuiApp::setup_gui()
 
 	//-------------------------------------------------------------------------
 	command_slider_2.setName("command GUI");
-	command_slider_2.add(compute_filter.set("Compute Filter"));
+	command_slider_2.add(compute_filter.set("Compute Filter", true));
 	command_slider_2.add(randomsamp.set("Sample Random Points"));
 	command_slider_2.add(switch_screen1.set("Screen 1 Switch"));
 	command_slider_2.add(switch_screen2.set("Screen 2 Switch"));
@@ -122,7 +123,7 @@ void GuiApp::draw(){
 			filterImage.draw(100, 100, 600, 600);
 		}
 	*/
-	draw_filterPreview();
+	if(!compute_filter)draw_filterPreview();
 
 	// should the gui control hiding?
 	if(!bHide)draw_gui();
@@ -133,6 +134,7 @@ void GuiApp::draw(){
 }
 
 void GuiApp::draw_filterPreview(){
+	cout<<"drawing Filterprev"<<endl;
 	int x_ = 300;
 	int y_ = 50;
 	int wi_ = 250;
@@ -167,6 +169,7 @@ void GuiApp::draw_filterPreview(){
 	// draw right Border
 	ofDrawRectangle(x_ + fp_w * superpixel_width, y_, fp_w * border_width, fp_h * dim_SP_ges_y);
 	ofEndShape();
+	compute_filter = false;
 }
 
 void GuiApp::draw_gui(){
@@ -176,11 +179,16 @@ void GuiApp::draw_gui(){
 	return;
 }
 
+void  GuiApp::filtermustload(bool & trig){
+	compute_filter = false;
+	return;
+}
 void GuiApp::mouseDragged(int x, int y, int button)
 {
 	cout << "mouse-dr   x:" << x << " y:" << y << " button:" << button << endl;
 	mouse_x = x;
 	mouse_y = y;
+	compute_filter = true;
 }
 
 void GuiApp::mousePressed(int x, int y, int button)

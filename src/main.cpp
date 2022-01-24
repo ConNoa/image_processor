@@ -57,8 +57,8 @@ int main()
 	settings_main.monitor = 1;
 	shared_ptr<ofAppBaseWindow> extern1_Window = ofCreateWindow(settings_main);
 
-	settings_main.setSize(1600, 1028);
-	settings_main.setPosition(glm::vec2(0, 1028));
+	settings_main.setSize(1200, 800);
+	settings_main.setPosition(glm::vec2(0, 0));
 	settings_main.monitor = 0;
 	settings_main.resizable = true;
 	settings_main.shareContextWith = extern1_Window;

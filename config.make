@@ -16,7 +16,7 @@ OF_ROOT = /home/pixel/OF
 #       (default) PROJECT_ROOT = . (this directory)
 #    
 ################################################################################
-# PROJECT_ROOT = .
+PROJECT_ROOT = /home/pixel/0_image_processing/image_processor
 
 ################################################################################
 # PROJECT SPECIFIC CHECKS
@@ -37,7 +37,14 @@ OF_ROOT = /home/pixel/OF
 #
 #   Note: Leave a leading space when adding list items with the += operator
 ################################################################################
-# PROJECT_EXTERNAL_SOURCE_PATHS = 
+#PROJECT_EXTERNAL_SOURCE_PATHS =  /home/pixel/OF/addons/ofxCv/src
+##PROJECT_EXTERNAL_SOURCE_PATHS +=  /home/pixel/OF/addons/ofxCv/libs
+#PROJECT_EXTERNAL_SOURCE_PATHS += /home/pixel/OF/addons/ofxGui/src
+#PROJECT_EXTERNAL_SOURCE_PATHS += /home/pixel/OF/addons/ofxOpenCv
+#PROJECT_EXTERNAL_SOURCE_PATHS += /home/pixel/OF/addons/ofxThreadedImageLoader
+#PROJECT_EXTERNAL_SOURCE_PATHS += /home/pixel/OF/addons/ofxVectorGraphics
+#PROJECT_EXTERNAL_SOURCE_PATHS += /home/pixel/OF/addons/ofxDatGui
+
 
 ################################################################################
 # PROJECT EXCLUSIONS
@@ -61,7 +68,7 @@ OF_ROOT = /home/pixel/OF
 #
 #   Note: Leave a leading space when adding list items with the += operator
 ################################################################################
-# PROJECT_EXCLUSIONS =
+# PROJECT_EXCLUSIONS = 
 
 ################################################################################
 # PROJECT LINKER FLAGS

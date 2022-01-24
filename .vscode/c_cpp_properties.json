@@ -63,7 +63,7 @@
                 "/usr/local/include/opencv4/opencv2/",
                 "/home/pixel/OF/libs/glm/include/glm/",
                 "/home/pixel/OF/libs/tess2/include",
-                "/home/pixel/OF/libs/openFrameworks",
+                "/home/pixel/OF/libs/openFrameworks**",
                 "/home/pixel/OF/libs/openFrameworks/events",
                 "/home/pixel/OF/libs/openFrameworks/utils",
                 "/usr/include",
@@ -117,7 +117,11 @@
                 "/home/pixel/0_image_processing/image_processor/src",
                 "/home/pixel/0_image_processing/image_processor/bin",
                 "/home/pixel/OF/libs/openFrameworks/**",
-                "/home/pixel/OF/libs/openFrameworks/**"
+                "/home/pixel/OF/libs/openFrameworks/**",
+                "/usr/include/opencv4",
+                "/home/pixel/OF/addons/ofxDatGui",
+                "/home/pixel/OF/addons/ofxGui",
+                "/home/pixel/OF/addons/ofxOpenCv"
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,

@@ -1,7 +1,6 @@
 ofxCv
 ofxGui
 ofxOpenCv
-ofxOsc
 ofxThreadedImageLoader
 ofxVectorGraphics
 ofxDatGui

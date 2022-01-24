@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
-//#include "ofxDatGui.h"
+#include "ofxDatGui.h"
 #include "ofxGui.h"
 #include <chrono>
 #include "ofxCv.h"
@@ -24,18 +24,7 @@ public:
 	void draw();
 	void draw_filterPreview();
 	void draw_gui();
-	//void exit();
-
-	// void keyPressed(int key);
-	// void keyReleased(int key);
-	// void mouseMoved(int x, int y);
-	// void mouseReleased(int x, int y, int button);
-	// void mouseEntered(int x, int y);
-	// void mouseExited(int x, int y);
-	// void mouseEventPos(int x, int y);
-	// void windowResized(int w, int h);
-	// void dragEvent(ofDragInfo dragInfo);
-	// void gotMessage(ofMessage msg);
+	void filtermustload(bool & trig);
     void keyPressed(int key);
     void keyReleased(int key);
     void mouseMoved(int x, int y);
