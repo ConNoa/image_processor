@@ -24,7 +24,7 @@ public:
 	void draw();
 	void draw_gui();
 	void draw_filterPreview();
-	void draw_imgPreview();
+	void draw_imgPreviewRect();
 
 
 
@@ -49,6 +49,7 @@ public:
 
 	//ofEventListener listenerMouse; // debug mouse clicks
 	void onSliderEvent(ofxDatGuiSliderEvent e);
+	void onDropdownEvent(ofxDatGuiDropdownEvent e);
 
 	//-----------some FLAGS
 	bool filter_loaded;
@@ -66,7 +67,7 @@ public:
 	cv::Mat test;
 
 	// Images
-	ofImage test_img;
+	ofImage prev_img;
 	ofImage test2_img;
 	ofImage filterImage;
 	ofImage roi_1;
@@ -91,6 +92,8 @@ public:
 	ofxPanel gui_s3;
 
 	ofxDatGui* m_gui;
+	
+	vector<ofxDatGuiComponent *> components;
 
 	ofParameterGroup sample_slider_1;
 	ofParameterGroup command_slider_2;

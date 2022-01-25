@@ -14,6 +14,8 @@ void GuiApp::setup(){
 	width_roi = 10;
 	height_roi = 10;
 
+	prev_img.load("wrong_format_calf-3833880_960_720.jpg");
+
 	//----------LISTENER----------------------------------------------
 	setup_gui();
 	setup_filter();
@@ -45,7 +47,6 @@ void GuiApp::setup_gui()
 	border_width.set("Border width", 0, 0, 5);
 	border_height.set("Border height", 0, 0, 5);
 
-
 	m_gui = new ofxDatGui();
 	m_gui->addLabel("Sample Parameters");
 	m_gui->addSlider(m_sampleamm_abs);
@@ -59,7 +60,18 @@ void GuiApp::setup_gui()
 	m_gui->addSlider(border_height);
 	m_gui->setPosition(20, 100);
 	m_gui->onSliderEvent(this, &GuiApp::onSliderEvent);
+
+
+	ofxDatGuiDropdown *dropdown;
+	vector<string> options = {"one", "two", "three", "four"};
+	dropdown = new ofxDatGuiDropdown("Image Data", options);
+	dropdown->setPosition(20, 700);
+	dropdown->expand();
+	dropdown->onDropdownEvent(this, &GuiApp::onDropdownEvent);
+	components.push_back(dropdown);
+
 	//-------------------------------------------------------------------------
+	/*
 	command_slider_2.setName("command GUI");
 	command_slider_2.add(compute_filter.set("Compute Filter", true));
 	command_slider_2.add(randomsamp.set("Sample Random Points"));
@@ -79,7 +91,7 @@ void GuiApp::setup_gui()
 	// info_slider_3.add(dim_monitor3.setup("screen size screen 3"));
 	// info_slider_3.add(label.setup("hierkommt was hilfreiches rein", (ofToString(ofGetWidth())+"x"+ofToString(ofGetHeight()))));
 	gui_s3.setup(info_slider_3, "settings.xml", pos_s3_x, pos_s3_y);
-
+*/
 	//-------------------------------------------------------------------------
 	// test_slider_4.setName(" sliders for testing");
 	/*test_slider_4.add(int_sl1.set("int_sl", 0, 1, 100));
@@ -128,6 +140,8 @@ void GuiApp::update(){
 	// recompute sizes and dimensions
 	dim_SP_ges_x = superpixel_width + border_width;
 	dim_SP_ges_y = superpixel_height + border_height;
+
+	for (int i = 0; i < components.size(); i++)components[i]->update();
 }
 
 void GuiApp::draw(){
@@ -139,6 +153,8 @@ void GuiApp::draw(){
 	*/
 	draw_filterPreview();
 
+	draw_imgPreviewRect();
+
 	// should the gui control hiding?
 	if(!bHide)draw_gui();
 	ofSetColor(255);
@@ -146,13 +162,13 @@ void GuiApp::draw(){
 	ofDrawBitmapString(ofToString(mouse_x), ofGetWidth() - 200, 40);
 	ofDrawBitmapString(ofToString(mouse_y), ofGetWidth() - 200, 60);
 }
+
 void GuiApp::compute_alphfilter(int w_, int h_, int cosx_, int cosy_){
 	//cout<<"compute_aplhfilter"<<endl;
 	actual_filterdata = pix_filter.get_FMat2D(w_, h_, cosx_, cosy_);
 	draw_filterPreview();
 	return;
 }
-
 
 void GuiApp::draw_filterPreview(){
 	//cout<<"drawing Filterprev"<<endl;
@@ -178,10 +194,11 @@ void GuiApp::draw_filterPreview(){
 		{
 			// Mat actual_filterdata = pix_filter.get_FMat2D(superpixel_width, superpixel_height, cosx_e, cosy_e);
 			int field_alpha = actual_filterdata.at<uchar>(j, i);
+			ofFill();
 			ofSetColor(field_alpha);
 			// draw rectangle for Pixel
 			// with (pos_x, pos_y, breite, höhe)
-			ofDrawRectangle(x_ + fp_w * i, y_ + fp_h * j, fp_w, fp_h);
+			ofDrawRectangle(x_ + fp_w * i, y_ + fp_h * j, fp_w-2, fp_h-2);
 		}
 	}
 	ofSetColor(0);
@@ -194,18 +211,49 @@ void GuiApp::draw_filterPreview(){
 	return;
 }
 
-void GuiApp::draw_gui(){
-	//gui.draw();
-	gui_s2.draw();
-	gui_s3.draw();
+void GuiApp::draw_imgPreviewRect(){
+
+	int pos_x_ = 300;
+	int pos_y_ = 600;
+	int max_w_ = 400;
+	int max_h_ = 300;
+	ofSetRectMode(OF_RECTMODE_CENTER);
+	ofBeginShape();
+	ofFill();
+	ofSetColor(0);
+	ofDrawRectangle(pos_x_+max_w_/2, pos_y_+max_h_/2, max_w_, max_h_);
+	ofEndShape();
+	ofSetColor(255);
+	float scalefac = max((prev_img.getWidth() / max_w_), (prev_img.getHeight() / max_h_));
+	prev_img.update();
+	prev_img.draw(pos_x_ + max_w_ / 2, pos_y_ + max_h_ / 2, prev_img.getWidth() / scalefac, prev_img.getHeight() / scalefac);
+	ofBeginShape();
+	ofNoFill();
+	ofSetColor(50, 205, 50);
+	ofDrawRectangle(pos_x_+max_w_/2, pos_y_+max_h_/2, max_w_, max_h_);
+	ofEndShape();
+	ofSetColor(255);	
+	ofSetRectMode(OF_RECTMODE_CORNER);
+
 	return;
 }
 
-void  GuiApp::filtermustload(bool & trig){
+void GuiApp::draw_gui(){
+
+	for (int i = 0; i < components.size(); i++)
+		components[i]->draw();
+	//gui.draw();
+	//gui_s2.draw();
+	//gui_s3.draw();
+	return;
+}
+
+void GuiApp::filtermustload(bool & trig){
 	cout<< "filter_must_LOAD"<<endl;
 	draw_filterPreview();
 	return;
 }
+
 void GuiApp::mouseDragged(int x, int y, int button)
 {
 	//cout << "mouse-dr   x:" << x << " y:" << y << " button:" << button << endl;
@@ -312,4 +360,9 @@ void GuiApp::onSliderEvent(ofxDatGuiSliderEvent e)
 {
 	cout << e.target->getName() << " : " << e.value << endl;
 	compute_alphfilter(superpixel_width, superpixel_height, cosx_e, cosy_e);
+}
+
+void GuiApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
+{
+	cout << "onDropdownEvent: " << e.child << endl;
 }
