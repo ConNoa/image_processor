@@ -63,8 +63,8 @@ void GuiApp::setup_gui()
 
 
 	ofxDatGuiDropdown *dropdown;
-	vector<string> options = {"one", "two", "three", "four"};
-	dropdown = new ofxDatGuiDropdown("Image Data", options);
+	//vector<string> options = {"one", "two", "three", "four"};
+	dropdown = new ofxDatGuiDropdown("Image Data", image_files);
 	dropdown->setPosition(20, 700);
 	dropdown->expand();
 	dropdown->onDropdownEvent(this, &GuiApp::onDropdownEvent);
@@ -142,6 +142,14 @@ void GuiApp::update(){
 	dim_SP_ges_y = superpixel_height + border_height;
 
 	for (int i = 0; i < components.size(); i++)components[i]->update();
+}
+
+void GuiApp::load_selImg(ofxDatGuiDropdownEvent in_)
+{
+	cout << "onDropdownEvent: " << in_.child << endl;
+
+	prev_img.load(image_files[in_.child]);
+	prev_img.update();
 }
 
 void GuiApp::draw(){
@@ -364,5 +372,5 @@ void GuiApp::onSliderEvent(ofxDatGuiSliderEvent e)
 
 void GuiApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
 {
-	cout << "onDropdownEvent: " << e.child << endl;
+	load_selImg(e);
 }

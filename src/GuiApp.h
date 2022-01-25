@@ -21,10 +21,13 @@ public:
 
 	void update();
 
+	void load_selImg(ofxDatGuiDropdownEvent in_);
+
 	void draw();
 	void draw_gui();
 	void draw_filterPreview();
 	void draw_imgPreviewRect();
+
 
 
 
@@ -67,6 +70,8 @@ public:
 	cv::Mat test;
 
 	// Images
+	vector<string> image_files = {"wrong_format_calf-3833880_960_720.jpg", "6_lena_512x512.png", "three", "four"};
+
 	ofImage prev_img;
 	ofImage test2_img;
 	ofImage filterImage;
@@ -92,7 +97,7 @@ public:
 	ofxPanel gui_s3;
 
 	ofxDatGui* m_gui;
-	
+
 	vector<ofxDatGuiComponent *> components;
 
 	ofParameterGroup sample_slider_1;
