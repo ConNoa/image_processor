@@ -22,8 +22,12 @@ public:
 	void update();
 
 	void draw();
-	void draw_filterPreview();
 	void draw_gui();
+	void draw_filterPreview();
+	void draw_imgPreview();
+
+
+
 	void filtermustload(bool & trig);
     void keyPressed(int key);
     void keyReleased(int key);
@@ -35,6 +39,7 @@ public:
     void mouseExited(int x, int y);
     void mouseEventPos(int x, int y);
 
+	void compute_alphfilter(int w_, int h_, int cosx_, int cosy_);
 
     //-- added
     void cutResChanged();

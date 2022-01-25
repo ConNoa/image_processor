@@ -120,6 +120,8 @@ void GuiApp::setup_filter()
 	pix_filter.createFilter_xy(superpixel_width, superpixel_height, cosx_e, cosy_e);
 	filter_exists = true;
 	cout << "setup_filter()" << endl;
+
+	compute_alphfilter(superpixel_width, superpixel_height, cosx_e, cosy_e);
 }
 
 void GuiApp::update(){
@@ -135,7 +137,7 @@ void GuiApp::draw(){
 			filterImage.draw(100, 100, 600, 600);
 		}
 	*/
-	//if(!compute_filter)draw_filterPreview();
+	draw_filterPreview();
 
 	// should the gui control hiding?
 	if(!bHide)draw_gui();
@@ -144,9 +146,16 @@ void GuiApp::draw(){
 	ofDrawBitmapString(ofToString(mouse_x), ofGetWidth() - 200, 40);
 	ofDrawBitmapString(ofToString(mouse_y), ofGetWidth() - 200, 60);
 }
+void GuiApp::compute_alphfilter(int w_, int h_, int cosx_, int cosy_){
+	//cout<<"compute_aplhfilter"<<endl;
+	actual_filterdata = pix_filter.get_FMat2D(w_, h_, cosx_, cosy_);
+	draw_filterPreview();
+	return;
+}
+
 
 void GuiApp::draw_filterPreview(){
-	cout<<"drawing Filterprev"<<endl;
+	//cout<<"drawing Filterprev"<<endl;
 	int x_ = 300;
 	int y_ = 50;
 	int wi_ = 250;
@@ -154,8 +163,8 @@ void GuiApp::draw_filterPreview(){
 	int fp_w = wi_ / dim_SP_ges_x;
 	int fp_h = he_ / dim_SP_ges_y;
 	int scale_fak = min(fp_w, fp_h);
-	Mat filter_temp = pix_filter.get_FMat2D(superpixel_width, superpixel_height, cosx_e, cosy_e);
-	// cout << filter_temp << endl;
+
+	// cout << actual_filterdata << endl;
 	fp_w = 20;
 	fp_h = fp_w;
 
@@ -167,8 +176,8 @@ void GuiApp::draw_filterPreview(){
 	{
 		for (int j = 0; j < superpixel_height; j++)
 		{
-			// Mat filter_temp = pix_filter.get_FMat2D(superpixel_width, superpixel_height, cosx_e, cosy_e);
-			int field_alpha = filter_temp.at<uchar>(j, i);
+			// Mat actual_filterdata = pix_filter.get_FMat2D(superpixel_width, superpixel_height, cosx_e, cosy_e);
+			int field_alpha = actual_filterdata.at<uchar>(j, i);
 			ofSetColor(field_alpha);
 			// draw rectangle for Pixel
 			// with (pos_x, pos_y, breite, höhe)
@@ -182,6 +191,7 @@ void GuiApp::draw_filterPreview(){
 	ofDrawRectangle(x_ + fp_w * superpixel_width, y_, fp_w * border_width, fp_h * dim_SP_ges_y);
 	ofEndShape();
 	compute_filter = false;
+	return;
 }
 
 void GuiApp::draw_gui(){
@@ -198,10 +208,10 @@ void  GuiApp::filtermustload(bool & trig){
 }
 void GuiApp::mouseDragged(int x, int y, int button)
 {
-	cout << "mouse-dr   x:" << x << " y:" << y << " button:" << button << endl;
+	//cout << "mouse-dr   x:" << x << " y:" << y << " button:" << button << endl;
 	mouse_x = x;
 	mouse_y = y;
-	compute_filter = true;
+	//compute_filter = true;
 
 }
 
@@ -211,6 +221,7 @@ void GuiApp::mousePressed(int x, int y, int button)
 	mouse_x = x;
 	mouse_y = y;
 }
+
 void GuiApp::keyReleased(int key)
 {
 }
@@ -300,5 +311,5 @@ void GuiApp::updateRectangleSize()
 void GuiApp::onSliderEvent(ofxDatGuiSliderEvent e)
 {
 	cout << e.target->getName() << " : " << e.value << endl;
-	draw_filterPreview();
+	compute_alphfilter(superpixel_width, superpixel_height, cosx_e, cosy_e);
 }
