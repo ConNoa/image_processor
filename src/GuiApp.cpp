@@ -1,11 +1,10 @@
 
-#include "GuiApp.hpp"
+#include "GuiApp.h"
 
 void GuiApp::setup(){
-	compute_filter.addListener(this, &GuiApp::filtermustload);
 	ofSetVerticalSync(true);
 	// Backgroundcolor
-	ofBackground(0, 0, 255);
+	ofBackground(999999);
 
 	bHide = false;
 	filter_loaded = false;
@@ -18,12 +17,16 @@ void GuiApp::setup(){
 	//----------LISTENER----------------------------------------------
 	setup_gui();
 	setup_filter();
+	draw_filterPreview();
+	
+	
+	//gui.addListener(this, &GuiApp::filtermustload);
+
 	//
 }
 
 void GuiApp::setup_gui()
 {
-
 	//-------------GÚI INTERFACE------------------------------------------------
 	pos_s1_x = 10;
 	pos_s1_y = 100;
@@ -32,18 +35,30 @@ void GuiApp::setup_gui()
 	pos_s3_x = 10;
 	pos_s3_y = 10;
 
-	sample_slider_1.setName("sample-parameters");
-	sample_slider_1.add(m_sampleamm_abs.set("Sampleammount ABS", 1000, 10, 200000));
-	sample_slider_1.add(m_sampleamm_rel.set("Sampleammount REL", 10, 0, 100));
-	sample_slider_1.add(m_superpix_res.set("Superpixel Res.", 100, 0, 100));
-	sample_slider_1.add(superpixel_width.set("S.Pix width", 10, 1, 19));
-	sample_slider_1.add(superpixel_height.set("S.Pix height", 10, 1, 19));
-	sample_slider_1.add(cosx_e.set("Cosx^", 1, 0, 15));
-	sample_slider_1.add(cosy_e.set("Cosy^", 1, 0, 15));
-	sample_slider_1.add(border_width.set("Border width", 0, 0, 5));
-	sample_slider_1.add(border_height.set("Border height", 0, 0, 5));
-	gui.setup(sample_slider_1, "settings.xml", pos_s1_x, pos_s1_y);
+	m_sampleamm_abs.set("Sampleammount ABS", 1000, 10, 200000);
+	m_sampleamm_rel.set("Sampleammount REL", 10, 0, 100);
+	m_superpix_res.set("Superpixel Res.", 100, 0, 100);
+	superpixel_width.set("S.Pix width", 10, 1, 19);
+	superpixel_height.set("S.Pix height", 10, 1, 19);
+	cosx_e.set("Cosx^", 1, 0, 15);
+	cosy_e.set("Cosy^", 1, 0, 15);
+	border_width.set("Border width", 0, 0, 5);
+	border_height.set("Border height", 0, 0, 5);
 
+
+	m_gui = new ofxDatGui();
+	m_gui->addLabel("Sample Parameters");
+	m_gui->addSlider(m_sampleamm_abs);
+	m_gui->addSlider(m_sampleamm_rel);
+	m_gui->addSlider(m_superpix_res);
+	m_gui->addSlider(superpixel_width);
+	m_gui->addSlider(superpixel_height);
+	m_gui->addSlider(cosx_e);
+	m_gui->addSlider(cosy_e);
+	m_gui->addSlider(border_width);
+	m_gui->addSlider(border_height);
+	m_gui->setPosition(20, 100);
+	m_gui->onSliderEvent(this, &GuiApp::onSliderEvent);
 	//-------------------------------------------------------------------------
 	command_slider_2.setName("command GUI");
 	command_slider_2.add(compute_filter.set("Compute Filter", true));
@@ -114,23 +129,20 @@ void GuiApp::update(){
 }
 
 void GuiApp::draw(){
-	ofSetColor(200);
-	ofDrawCircle(ofGetWidth() * 0.5, ofGetHeight() * 0.5, 200);
-	ofSetColor(0);
-	ofDrawBitmapString(ofGetFrameRate(), 20, 20);
+
 	/*
 		if(pixel_filter_exists){
 			filterImage.draw(100, 100, 600, 600);
 		}
 	*/
-	if(!compute_filter)draw_filterPreview();
+	//if(!compute_filter)draw_filterPreview();
 
 	// should the gui control hiding?
 	if(!bHide)draw_gui();
-
-	ofDrawBitmapString(ofToString(ofGetFrameRate()), 250, 20);
-	ofDrawBitmapString(ofToString(mouse_x), 250, 40);
-	ofDrawBitmapString(ofToString(mouse_y), 250, 60);
+	ofSetColor(255);
+	ofDrawBitmapString(ofToString(ofGetFrameRate()), ofGetWidth()-200, 20);
+	ofDrawBitmapString(ofToString(mouse_x), ofGetWidth() - 200, 40);
+	ofDrawBitmapString(ofToString(mouse_y), ofGetWidth() - 200, 60);
 }
 
 void GuiApp::draw_filterPreview(){
@@ -173,14 +185,15 @@ void GuiApp::draw_filterPreview(){
 }
 
 void GuiApp::draw_gui(){
-	gui.draw();
+	//gui.draw();
 	gui_s2.draw();
 	gui_s3.draw();
 	return;
 }
 
 void  GuiApp::filtermustload(bool & trig){
-	compute_filter = false;
+	cout<< "filter_must_LOAD"<<endl;
+	draw_filterPreview();
 	return;
 }
 void GuiApp::mouseDragged(int x, int y, int button)
@@ -189,6 +202,7 @@ void GuiApp::mouseDragged(int x, int y, int button)
 	mouse_x = x;
 	mouse_y = y;
 	compute_filter = true;
+
 }
 
 void GuiApp::mousePressed(int x, int y, int button)
@@ -281,4 +295,10 @@ void GuiApp::updateRectangleSize()
 	roi_1.update();
 
 	return;
+}
+
+void GuiApp::onSliderEvent(ofxDatGuiSliderEvent e)
+{
+	cout << e.target->getName() << " : " << e.value << endl;
+	draw_filterPreview();
 }

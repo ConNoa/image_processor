@@ -1,6 +1,6 @@
 obj/linux64/Release/src/GuiApp.o: \
  /home/pixel/0_image_processing/image_processor/src/GuiApp.cpp \
- /home/pixel/0_image_processing/image_processor/src/GuiApp.hpp \
+ /home/pixel/0_image_processing/image_processor/src/GuiApp.h \
  /home/pixel/OF/libs/openFrameworks/ofMain.h \
  /home/pixel/OF/libs/openFrameworks/utils/ofConstants.h \
  /home/pixel/OF/libs/tess2/include/tesselator.h \
@@ -697,7 +697,7 @@ obj/linux64/Release/src/GuiApp.o: \
  /home/pixel/0_image_processing/image_processor/src/filterdata.hpp \
  /home/pixel/0_image_processing/image_processor/src/filterkey.hpp
 
-/home/pixel/0_image_processing/image_processor/src/GuiApp.hpp:
+/home/pixel/0_image_processing/image_processor/src/GuiApp.h:
 
 /home/pixel/OF/libs/openFrameworks/ofMain.h:
 

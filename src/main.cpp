@@ -1,6 +1,6 @@
 #include "ofMain.h"
 #include "ofApp.h"
-#include "GuiApp.hpp"
+#include "GuiApp.h"
 #include "ofAppGLFWWindow.h"
 #include <memory>
 

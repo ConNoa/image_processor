@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
-#include "GuiApp.hpp"
+#include "GuiApp.h"
 #include "ofxCv.h"
 #include "ofxOpenCv.h"
 #include <opencv2/highgui.hpp>

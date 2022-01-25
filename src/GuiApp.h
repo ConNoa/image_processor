@@ -43,6 +43,7 @@ public:
 	void updateRectangleSize();
 
 	//ofEventListener listenerMouse; // debug mouse clicks
+	void onSliderEvent(ofxDatGuiSliderEvent e);
 
 	//-----------some FLAGS
 	bool filter_loaded;
@@ -83,6 +84,8 @@ public:
 
 	ofxPanel gui_s2;
 	ofxPanel gui_s3;
+
+	ofxDatGui* m_gui;
 
 	ofParameterGroup sample_slider_1;
 	ofParameterGroup command_slider_2;
