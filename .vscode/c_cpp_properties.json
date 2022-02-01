@@ -121,7 +121,9 @@
                 "/usr/include/opencv4",
                 "/home/pixel/OF/addons/ofxDatGui",
                 "/home/pixel/OF/addons/ofxGui",
-                "/home/pixel/OF/addons/ofxOpenCv"
+                "/home/pixel/OF/addons/ofxOpenCv",
+                "/usr/include/ImageMagick-6",
+                "/usr/include/x86_64-linux-gnu/ImageMagick-6"
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,

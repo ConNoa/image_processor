@@ -696,7 +696,8 @@ obj/linux64/Release/src/main.o: \
  /usr/local/include/opencv4/opencv2/highgui/highgui.hpp \
  /home/pixel/0_image_processing/image_processor/src/structs.hpp \
  /home/pixel/0_image_processing/image_processor/src/filterdata.hpp \
- /home/pixel/0_image_processing/image_processor/src/filterkey.hpp
+ /home/pixel/0_image_processing/image_processor/src/filterkey.hpp \
+ /home/pixel/0_image_processing/image_processor/src/corpus_inspektor.h
 
 /home/pixel/OF/libs/openFrameworks/ofMain.h:
 
@@ -2125,3 +2126,5 @@ obj/linux64/Release/src/main.o: \
 /home/pixel/0_image_processing/image_processor/src/filterdata.hpp:
 
 /home/pixel/0_image_processing/image_processor/src/filterkey.hpp:
+
+/home/pixel/0_image_processing/image_processor/src/corpus_inspektor.h:

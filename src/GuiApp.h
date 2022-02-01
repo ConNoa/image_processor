@@ -9,6 +9,9 @@
 #include <opencv2/highgui.hpp>
 #include "filter.hpp"
 #include <memory>
+#include "corpus_inspektor.h"
+
+
 
 using namespace ofxCv;
 using namespace cv;
