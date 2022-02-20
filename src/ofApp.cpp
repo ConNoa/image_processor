@@ -3,6 +3,17 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
 
+	pnt[0].x = 0;
+	pnt[0].y = 0;
+	pnt[2].x = (float)ofGetWidth();
+	pnt[2].y = (float)ofGetHeight();
+	draw_bnds.set(pnt[0], pnt[2]);
+	pnt[1].x = gui->mouse_x_dr-gui->PR_pos_x_;
+	pnt[1].y = gui->mouse_y_dr-gui->PR_pos_y_;
+	pnt[3].x = (float)ofGetWindowWidth();
+	pnt[3].y = (float)ofGetWindowHeight();
+	subsec_bnds.set(pnt[1], pnt[3]);
+
 	ofSetVerticalSync(true);
 	ofBackground(0,100, 255);
 //-----------------------------------------------------------------------------
@@ -22,9 +33,18 @@ void ofApp::setup(){
 //	roi_1.update();
 	test_img.update();
 	ofEnableAlphaBlending();
+	ofLoadImage(orig_img, gui->image_files[0]);
 }
 
-void ofApp::update(){
+void ofApp::update()
+{
+	if(gui->gui_changed == true){
+
+		ofLoadImage(orig_img, gui->image_files[gui->dropdownvalue]);
+		gui->gui_changed = false;
+	}
+
+	
 	/*
 	if(filter_exists && !filter_loaded)
 	{
@@ -33,21 +53,29 @@ void ofApp::update(){
 	setFilterToPixel();
 	}
 */
-
 }
 
-void ofApp::draw(){
+void ofApp::draw()
+	{
 
-	ofSetColor(255);
-	test_img.update();
-	test_img.draw(ofGetWidth()/2, ofGetHeight()/2, test_img.getWidth()/3, test_img.getHeight()/3);
+		ofSetColor(255);
+		pnt[0].x = (float)((gui->PR_pos_x_ - gui->mouse_x_dr) * gui->scalefac);
 
-	ofDrawBitmapString( ofToString( ofGetFrameRate() ), 250, 20 );
-	ofDrawBitmapString( ofToString( gui->mouse_x ), 250, 40 );
-	ofDrawBitmapString( ofToString( gui->mouse_y ), 250, 60 );
-}
-void ofApp::dragEvent(ofDragInfo dragInfo)
-{
+		pnt[0].y = (float)((gui->PR_pos_y_ - gui->mouse_y_dr) * gui->scalefac);
+		// pnt[1].x = (float)((gui->PR_pos_x_ - gui->mouse_x_dr));
+		// pnt[1].y = (float)((gui->PR_pos_y_ - gui->mouse_y_dr));
+		// pnt[3].x = (float)ofGetWindowWidth();
+		// pnt[3].y = (float)ofGetWindowHeight();
+		subsec_bnds.set(pnt[0], 1220, 1028 );
+
+		orig_img.draw(draw_bnds);
+
+		ofDrawBitmapString(ofToString(ofGetFrameRate()), 250, 20);
+		ofDrawBitmapString(ofToString(gui->mouse_x), 250, 40);
+		ofDrawBitmapString(ofToString(gui->mouse_y), 250, 60);
+	}
+
+void ofApp::dragEvent(ofDragInfo dragInfo){
 }
 
 void ofApp::gotMessage(ofMessage msg) {}
@@ -57,7 +85,12 @@ void ofApp::windowResized(int w, int h){
 
 }
 
-
+void ofApp::mouseMoved(int x, int y){
+//	cout << "mooove Main mouse-pr   x:" << x << " y:" << y << " button:" << endl;
+	//mouseX = x;
+	//mouseY = y;
+//	return;
+}
 
 cv::Mat ofApp::ofImgToCVMat(ofImage const& img_in){
 	auto pix_ = img_in.getPixels();

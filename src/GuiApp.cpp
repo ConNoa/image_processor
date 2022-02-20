@@ -6,6 +6,7 @@ void GuiApp::setup(){
 	// Backgroundcolor
 	ofBackground(999999);
 
+	gui_changed = false;
 	bHide = false;
 	filter_loaded = false;
 	pixel_filter_exists = false;
@@ -13,8 +14,26 @@ void GuiApp::setup(){
 	y_roi = 100;
 	width_roi = 10;
 	height_roi = 10;
+//image and testimage stuff
 
-	prev_img.load("wrong_format_calf-3833880_960_720.jpg");
+	read_Corpus();
+
+	PR_pos_x_ = 300;
+	PR_pos_y_ = 600;
+	PR_max_w_ = 400;
+	PR_max_h_ = 300;
+
+	pnt[0].x = 0;
+	pnt[0].y = 0;
+	pnt[1].x = (float)(ofGetWidth());
+	pnt[1].y = 0;
+	pnt[2].x = (float)ofGetWidth();
+	pnt[2].y = (float)ofGetHeight();
+	pnt[3].x = 0;
+	pnt[3].y = (float)(ofGetHeight());
+	draw_bnds.set(pnt[0], pnt[2]);
+
+	ofLoadImage(prev_img, image_files[0]);
 
 	//----------LISTENER----------------------------------------------
 	setup_gui();
@@ -144,12 +163,52 @@ void GuiApp::update(){
 	for (int i = 0; i < components.size(); i++)components[i]->update();
 }
 
+// Get files of input folder:
+void GuiApp::read_Corpus()
+{
+	DIR *dp;
+	struct dirent *dirp;
+	if ((dp = opendir(source_folder.c_str())) == NULL)
+	{
+		std::cout << "Error(" << errno << ") opening " << source_folder << std::endl;
+	}
+
+	while ((dirp = readdir(dp)) != NULL)
+	{
+		if (((std::string("README")).compare(dirp->d_name) != 0) && ((std::string(".")).compare(dirp->d_name) != 0) && ((std::string("..")).compare(dirp->d_name) != 0))
+		{
+			std::cout << "Found " << dirp->d_name << std::endl;
+			// Magick::Image local_file_image(source_folder + "/" + dirp->d_name);
+			// if (check_format(local_file_image) == true)
+			// {
+			char newname[800];
+			strcpy(newname, "01_possible_corpus/");
+			std::strcat(newname, dirp->d_name);
+			image_files.push_back(std::string(newname));
+			// 	std::cout << source_folder + "/" + dirp->d_name << " added" << std::endl;
+			// }
+			// else
+			// {
+			// 	std::cout << source_folder + "/" + dirp->d_name << " has wrong format" << std::endl;
+			// 	moveFileTo(dirp->d_name, source_folder, reject_folder);
+			// 	char newname[800];
+			// 	strcpy(newname, "wrong_format_");
+			// 	std::strcat(newname, dirp->d_name);
+			// 	rename_file(dirp->d_name, reject_folder, newname);
+			// }
+		}
+		std::cout << std::endl;
+	}
+	closedir(dp);
+	std::cout << "Number of files in possible corpus: " << image_files.size() << std::endl;
+	return;
+}
+
 void GuiApp::load_selImg(ofxDatGuiDropdownEvent in_)
 {
 	cout << "onDropdownEvent: " << in_.child << endl;
 
-	prev_img.load(image_files[in_.child]);
-	prev_img.update();
+	ofLoadImage(prev_img, image_files[in_.child]);
 }
 
 void GuiApp::draw(){
@@ -221,24 +280,20 @@ void GuiApp::draw_filterPreview(){
 
 void GuiApp::draw_imgPreviewRect(){
 
-	int pos_x_ = 300;
-	int pos_y_ = 600;
-	int max_w_ = 400;
-	int max_h_ = 300;
+
 	ofSetRectMode(OF_RECTMODE_CENTER);
 	ofBeginShape();
 	ofFill();
 	ofSetColor(0);
-	ofDrawRectangle(pos_x_+max_w_/2, pos_y_+max_h_/2, max_w_, max_h_);
+	ofDrawRectangle(PR_pos_x_+PR_max_w_/2, PR_pos_y_+PR_max_h_/2, PR_max_w_, PR_max_h_);
 	ofEndShape();
 	ofSetColor(255);
-	float scalefac = max((prev_img.getWidth() / max_w_), (prev_img.getHeight() / max_h_));
-	prev_img.update();
-	prev_img.draw(pos_x_ + max_w_ / 2, pos_y_ + max_h_ / 2, prev_img.getWidth() / scalefac, prev_img.getHeight() / scalefac);
+	scalefac = max((prev_img.getWidth() / PR_max_w_), (prev_img.getHeight() / PR_max_h_));
+	prev_img.draw(PR_pos_x_ + PR_max_w_ / 2, PR_pos_y_ + PR_max_h_ / 2, prev_img.getWidth() / scalefac, prev_img.getHeight() / scalefac);
 	ofBeginShape();
 	ofNoFill();
 	ofSetColor(50, 205, 50);
-	ofDrawRectangle(pos_x_+max_w_/2, pos_y_+max_h_/2, max_w_, max_h_);
+	ofDrawRectangle(PR_pos_x_+PR_max_w_/2, PR_pos_y_+PR_max_h_/2, PR_max_w_, PR_max_h_);
 	ofEndShape();
 	ofSetColor(255);	
 	ofSetRectMode(OF_RECTMODE_CORNER);
@@ -265,10 +320,11 @@ void GuiApp::filtermustload(bool & trig){
 void GuiApp::mouseDragged(int x, int y, int button)
 {
 	//cout << "mouse-dr   x:" << x << " y:" << y << " button:" << button << endl;
-	mouse_x = x;
-	mouse_y = y;
-	//compute_filter = true;
-
+	mouse_x_dr = x;
+	mouse_y_dr = y;
+	mouseX = x;
+	mouseY = y;
+	// compute_filter = true;
 }
 
 void GuiApp::mousePressed(int x, int y, int button)
@@ -284,6 +340,10 @@ void GuiApp::keyReleased(int key)
 
 void GuiApp::mouseMoved(int x, int y)
 {
+	// cout << "mooove GUI mouse-pr   x:" << x << " y:" << y << " button:" << endl;
+	// mouse_x = x;
+	// mouse_y = y;
+	// return;
 }
 
 void GuiApp::mouseReleased(int x, int y, int button)
@@ -372,5 +432,7 @@ void GuiApp::onSliderEvent(ofxDatGuiSliderEvent e)
 
 void GuiApp::onDropdownEvent(ofxDatGuiDropdownEvent e)
 {
+	dropdownvalue = e.child;
+	gui_changed = true;
 	load_selImg(e);
 }

@@ -24,14 +24,14 @@ public:
 
 	void update();
 
+	void read_Corpus();
+
 	void load_selImg(ofxDatGuiDropdownEvent in_);
 
 	void draw();
 	void draw_gui();
 	void draw_filterPreview();
 	void draw_imgPreviewRect();
-
-
 
 
 	void filtermustload(bool & trig);
@@ -57,14 +57,24 @@ public:
 	void onSliderEvent(ofxDatGuiSliderEvent e);
 	void onDropdownEvent(ofxDatGuiDropdownEvent e);
 
+	//----generalinformations
+	int main_window_w;
+	int main_window_h;
+	float scalefac;
 	//-----------some FLAGS
+	bool gui_changed;
+	int  dropdownvalue;
+
 	bool filter_loaded;
 	bool filter_exists;
 	bool pixel_filter_exists;
 	bool bHide;
 
-	//--cv::STRUCTS
+	const std::string source_folder = "01_possible_corpus";
+	const std::string res_folder = "../03_received_corpus";
+	const std::string reject_folder = "../02_not_used_for_corpus";
 
+	//--cv::STRUCTS
 	Filter pix_filter;
 
 	cv::Mat actual_filterdata;
@@ -73,9 +83,12 @@ public:
 	cv::Mat test;
 
 	// Images
-	vector<string> image_files = {"wrong_format_calf-3833880_960_720.jpg", "6_lena_512x512.png", "three", "four"};
+	vector<string> image_files = {};
 
-	ofImage prev_img;
+	ofTexture prev_img;
+	ofPoint pnt[4];
+	ofRectangle draw_bnds;
+
 	ofImage test2_img;
 	ofImage filterImage;
 	ofImage roi_1;
@@ -86,6 +99,7 @@ public:
 	// testparameter
 	int x_roi, y_roi;
 	int width_roi, height_roi;
+	int mouse_x_dr, mouse_y_dr;
 	int mouse_x, mouse_y;
 
 	ofxPanel gui;
@@ -96,7 +110,12 @@ public:
 	float pos_s3_x;
 	float pos_s3_y;
 
-	ofxPanel gui_s2;
+	int PR_pos_x_;
+	int PR_pos_y_;
+	int PR_max_w_;
+	int PR_max_h_;
+
+		ofxPanel gui_s2;
 	ofxPanel gui_s3;
 
 	ofxDatGui* m_gui;

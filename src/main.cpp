@@ -26,13 +26,13 @@ int main()
 	settingsT.setSize(1920, 1080);
 	settingsT.setPosition(ofVec2f(1920, 0));
 	settingsT.resizable = true;
-	shared_ptr<ofAppBaseWindow> mainWindow = ofCreateWindow(settingsT);
+	shared_ptr<ofAppBaseWindow> main_Window = ofCreateWindow(settingsT);
 
 	ofGLFWWindowSettings settingsP;
 	settingsP.setSize(1920, 1080);
 	settingsP.setPosition(ofVec2f(0, 1080));
 	settingsP.resizable = true;
-	settingsP.shareContextWith = mainWindow;
+	settingsP.shareContextWith = main_Window;
 	shared_ptr<ofAppBaseWindow> presentWindow = ofCreateWindow(settingsP);
 	presentWindow->setVerticalSync(false);
 
@@ -40,7 +40,7 @@ int main()
 	mainApp->setupMain();
 
 //	ofAddListener(presentWindow->events().draw, mainApp->draw(), &ofApp::drawMain);
-	ofRunApp(mainWindow, mainApp);
+	ofRunApp(main_Window, mainApp);
 	ofRunMainLoop();
 }
 */
@@ -55,23 +55,28 @@ int main()
 	settings_main.setPosition(glm::vec2(1920, 1028));
 	settings_main.resizable = false;
 	settings_main.monitor = 1;
-	shared_ptr<ofAppBaseWindow> extern1_Window = ofCreateWindow(settings_main);
+	//ofSetWindowTitle("extern1");
+	shared_ptr<ofAppBaseWindow> gui_Window = ofCreateWindow(settings_main);
 
-	settings_main.setSize(1920,1028);
+	int main_window_w = 1220;
+	int main_window_h = 1028;
+	settings_main.setSize(main_window_w, main_window_h);
 	settings_main.setPosition(glm::vec2(0, 1028));
 	settings_main.monitor = 0;
 	settings_main.resizable = true;
-	settings_main.shareContextWith = extern1_Window;
-	shared_ptr<ofAppBaseWindow> mainWindow = ofCreateWindow(settings_main);
+	settings_main.shareContextWith = gui_Window;
+	shared_ptr<ofAppBaseWindow> main_Window = ofCreateWindow(settings_main);
 
 
 	shared_ptr<ofApp> mainApp(new ofApp);
 	shared_ptr<GuiApp> guiApp(new GuiApp);
 
 	mainApp->gui = guiApp;
+	mainApp->gui->main_window_w = main_window_w;
+	mainApp->gui->main_window_h = main_window_h;
 
-
-	ofRunApp(extern1_Window, guiApp);
-	ofRunApp(mainWindow, mainApp);
+	//ofAddListener(main_Window->events().draw, mainApp->draw(), &ofApp::draw());
+	ofRunApp(gui_Window, guiApp);
+	ofRunApp(main_Window, mainApp);
 	ofRunMainLoop();
 }
