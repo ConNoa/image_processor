@@ -3,10 +3,10 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
 
-	pnt[0].x = 0;
-	pnt[0].y = 0;
-	pnt[2].x = (float)ofGetWidth();
-	pnt[2].y = (float)ofGetHeight();
+	pnt[0].x = (float)-100;
+	pnt[0].y = (float)-500;
+	pnt[2].x = (float)orig_img.getWidth();
+	pnt[2].y = (float)orig_img.getHeight();
 	draw_bnds.set(pnt[0], pnt[2]);
 	pnt[1].x = gui->mouse_x_dr-gui->PR_pos_x_;
 	pnt[1].y = gui->mouse_y_dr-gui->PR_pos_y_;
@@ -59,16 +59,17 @@ void ofApp::draw()
 	{
 
 		ofSetColor(255);
-		pnt[0].x = (float)((gui->PR_pos_x_ - gui->mouse_x_dr) * gui->scalefac);
+		//pnt[0].x = (float)((gui->PR_pos_x_ - gui->mouse_x_dr) * gui->scalefac);
 
-		pnt[0].y = (float)((gui->PR_pos_y_ - gui->mouse_y_dr) * gui->scalefac);
+		//pnt[0].y = (float)((gui->PR_pos_y_ - gui->mouse_y_dr) * gui->scalefac);
 		// pnt[1].x = (float)((gui->PR_pos_x_ - gui->mouse_x_dr));
 		// pnt[1].y = (float)((gui->PR_pos_y_ - gui->mouse_y_dr));
 		// pnt[3].x = (float)ofGetWindowWidth();
 		// pnt[3].y = (float)ofGetWindowHeight();
 		subsec_bnds.set(pnt[0], 1220, 1028 );
 
-		orig_img.draw(draw_bnds);
+		orig_img.draw(gui->mouse_x_dr, gui->mouse_y_dr, orig_img.getWidth(), orig_img.getHeight());
+		///cout<< orig_img.getWidth()<< endl;
 
 		ofDrawBitmapString(ofToString(ofGetFrameRate()), 250, 20);
 		ofDrawBitmapString(ofToString(gui->mouse_x), 250, 40);
