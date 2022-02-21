@@ -17,30 +17,16 @@ void GuiApp::setup(){
 //image and testimage stuff
 
 	read_Corpus();
-
-	PR_pos_x_ = 300;
-	PR_pos_y_ = 600;
-	PR_max_w_ = 400;
-	PR_max_h_ = 300;
-
-	pnt[0].x = 0;
-	pnt[0].y = 0;
-	pnt[1].x = (float)(ofGetWidth());
-	pnt[1].y = 0;
-	pnt[2].x = (float)ofGetWidth();
-	pnt[2].y = (float)ofGetHeight();
-	pnt[3].x = 0;
-	pnt[3].y = (float)(ofGetHeight());
-	draw_bnds.set(pnt[0], pnt[2]);
-
 	ofLoadImage(prev_img, image_files[0]);
 
 	//----------LISTENER----------------------------------------------
 	setup_gui();
 	setup_filter();
-	draw_filterPreview();
-	
-	
+	//draw_filterPreview();
+
+	setup_imgPreview();
+
+
 	//gui.addListener(this, &GuiApp::filtermustload);
 
 	//
@@ -81,13 +67,19 @@ void GuiApp::setup_gui()
 	m_gui->onSliderEvent(this, &GuiApp::onSliderEvent);
 
 
-	ofxDatGuiDropdown *dropdown;
 	//vector<string> options = {"one", "two", "three", "four"};
 	dropdown = new ofxDatGuiDropdown("Image Data", image_files);
 	dropdown->setPosition(20, 700);
 	dropdown->expand();
 	dropdown->onDropdownEvent(this, &GuiApp::onDropdownEvent);
 	components.push_back(dropdown);
+
+	m_zoom_fac.set("Zoom Factor Main", 1, 1, 20);
+	zoom_gui = new ofxDatGui();
+	zoom_gui->addLabel("additional Parameters");
+	zoom_gui->addSlider(m_zoom_fac);
+	zoom_gui->setPosition(315, 950);
+	zoom_gui->onSliderEvent(this, &GuiApp::onSliderEvent);
 
 	//-------------------------------------------------------------------------
 	/*
@@ -155,6 +147,30 @@ void GuiApp::setup_filter()
 	compute_alphfilter(superpixel_width, superpixel_height, cosx_e, cosy_e);
 }
 
+void GuiApp::setup_imgPreview(){
+
+	PR_pos_x_ = 300;
+	PR_pos_y_ = 600;
+	PR_max_w_ = 400;
+	PR_max_h_ = 300;
+
+	pnt[0].x = 0;
+	pnt[0].y = 0;
+	pnt[1].x = (float)(ofGetWidth());
+	pnt[1].y = 0;
+	pnt[2].x = (float)ofGetWidth();
+	pnt[2].y = (float)ofGetHeight();
+	pnt[3].x = 0;
+	pnt[3].y = (float)(ofGetHeight());
+	draw_bnds.set(pnt[0], pnt[2]);
+
+	mouse_x_dr = PR_pos_x_+ PR_max_w_/2;
+	mouse_y_dr = PR_pos_y_+ PR_max_h_ / 2;
+
+	dragOffset_x = 0;
+	dragOffset_y = 0;
+}
+
 void GuiApp::update(){
 	// recompute sizes and dimensions
 	dim_SP_ges_x = superpixel_width + border_width;
@@ -220,7 +236,9 @@ void GuiApp::draw(){
 	*/
 	draw_filterPreview();
 
-	draw_imgPreviewRect();
+	draw_imgPreview();
+
+	draw_Preview_Rect();
 
 	// should the gui control hiding?
 	if(!bHide)draw_gui();
@@ -278,7 +296,7 @@ void GuiApp::draw_filterPreview(){
 	return;
 }
 
-void GuiApp::draw_imgPreviewRect(){
+void GuiApp::draw_imgPreview(){
 
 
 	ofSetRectMode(OF_RECTMODE_CENTER);
@@ -289,6 +307,7 @@ void GuiApp::draw_imgPreviewRect(){
 	ofEndShape();
 	ofSetColor(255);
 	scalefac = max((prev_img.getWidth() / PR_max_w_), (prev_img.getHeight() / PR_max_h_));
+	truth_scalefac = scalefac*(float)m_zoom_fac;
 	prev_img.draw(PR_pos_x_ + PR_max_w_ / 2, PR_pos_y_ + PR_max_h_ / 2, prev_img.getWidth() / scalefac, prev_img.getHeight() / scalefac);
 	ofBeginShape();
 	ofNoFill();
@@ -299,6 +318,22 @@ void GuiApp::draw_imgPreviewRect(){
 	ofSetRectMode(OF_RECTMODE_CORNER);
 
 	return;
+}
+
+void GuiApp::draw_Preview_Rect(){
+	ofSetRectMode(OF_RECTMODE_CENTER);
+	ofBeginShape();
+	ofNoFill();
+	ofSetColor(255, 0, 255);
+	prevrw = main_window_w / prev_img.getWidth() * (prev_img.getWidth() / truth_scalefac);
+	prevrh = main_window_h / prev_img.getHeight() * (prev_img.getHeight() / truth_scalefac);
+	prevrx = mouse_x_dr + dragOffset_x/truth_scalefac;
+	prevry = mouse_y_dr + dragOffset_y/truth_scalefac;
+	
+	ofDrawRectangle(prevrx, prevry, prevrw, prevrh);
+	ofEndShape();
+	ofSetColor(255);
+	ofSetRectMode(OF_RECTMODE_CORNER);
 }
 
 void GuiApp::draw_gui(){
@@ -319,17 +354,72 @@ void GuiApp::filtermustload(bool & trig){
 
 void GuiApp::mouseDragged(int x, int y, int button)
 {
-	//cout << "mouse-dr   x:" << x << " y:" << y << " button:" << button << endl;
-	mouse_x_dr = x;
-	mouse_y_dr = y;
+	if ((last_click_x > PR_pos_x_) && (last_click_x < (PR_pos_x_ + PR_max_w_)) && (last_click_y > PR_pos_y_) && (last_click_y < (PR_pos_y_ + PR_max_h_)))
+	{
+		// cout << "mouse-dr   x:" << x << " y:" << y << " button:" << button << endl;
+		if ((x > (PR_pos_x_ + prevrw / 2)) && (x < (PR_pos_x_ + PR_max_w_ - prevrw / 2)))
+		{
+			mouse_x_dr = x;
+			if ((y >= (PR_pos_y_ + prevrh / 2)) && (y < (PR_pos_y_ + PR_max_h_ - prevrh / 2)))
+			{
+				mouse_y_dr = y;
+			}
+		}
+		else if ((y >= (PR_pos_y_ + prevrh / 2)) && (y < (PR_pos_y_ + PR_max_h_ - prevrh / 2)))
+		{
+			mouse_y_dr = y;
+		}
+	}
+
 	mouseX = x;
 	mouseY = y;
 	// compute_filter = true;
 }
 
+
 void GuiApp::mousePressed(int x, int y, int button)
 {
-	cout << "mouse-pr   x:" << x << " y:" << y << " button:" << button << endl;
+	last_click_x = x;
+	last_click_y = y;
+
+	if((last_click_x>PR_pos_x_)&&(last_click_x<(PR_pos_x_+PR_max_w_))
+		&&(last_click_y>PR_pos_y_)&&(last_click_y<(PR_pos_y_+PR_max_h_))){
+
+		cout << "mouse-pr   x:" << x << " y:" << y << " button:" << button << endl;
+		if ((x > (PR_pos_x_ + prevrw / 2)) && (x < (PR_pos_x_ + PR_max_w_ - prevrw / 2)))
+		{
+			mouse_x_dr = x;
+			if ((y >= (PR_pos_y_ + prevrh / 2)) && (y < (PR_pos_y_ + PR_max_h_ - prevrh / 2)))
+			{
+				mouse_y_dr = y;
+			}
+		}
+		else if ((y >= (PR_pos_y_ + prevrh / 2)) && (y < (PR_pos_y_ + PR_max_h_ - prevrh / 2)))
+		{
+			mouse_y_dr = y;
+		}
+
+		if ((y >= (PR_pos_y_)) && (y < (PR_pos_y_ + prevrh / 2)))
+		{
+			mouse_y_dr = (PR_pos_y_ + prevrh / 2);
+		}
+		else if ((y >= (PR_pos_y_ + PR_max_h_ - prevrh / 2)) && (y < (PR_pos_y_ + PR_max_h_)))
+		{
+			mouse_y_dr = (PR_pos_y_ + PR_max_h_ - prevrh / 2);
+		}
+
+		if ((x >= (PR_pos_x_)) && (x < (PR_pos_x_ + prevrw / 2)))
+		{
+			mouse_x_dr = (PR_pos_x_ + prevrw / 2);
+		}
+		else if ((x >= (PR_pos_x_ + PR_max_w_ - prevrw / 2)) && (x < (PR_pos_x_ + PR_max_w_)))
+		{
+			mouse_x_dr = (PR_pos_x_ + PR_max_w_ - prevrw / 2);
+		}
+	}
+
+	
+
 	mouse_x = x;
 	mouse_y = y;
 }
@@ -357,12 +447,7 @@ void GuiApp::mouseEntered(int x, int y)
 
 void GuiApp::mouseExited(int x, int y)
 {
-}
-
-void GuiApp::mouseEventPos(int x, int y)
-{
-	mouse_x = x;
-	mouse_y = y;
+// gui->scalefac) / 2) * gui->scalefac
 	return;
 }
 
@@ -417,11 +502,11 @@ void GuiApp::setFilterToPixel()
 
 void GuiApp::updateRectangleSize()
 {
-	Mat submat_t = Mat(lena_mat, cv::Rect(x_roi, y_roi, mouse_x, mouse_y));
-	toOf(submat_t, roi_1);
-	roi_1.update();
+	//Mat submat_t = Mat(lena_mat, cv::Rect(x_roi, y_roi, mouse_x, mouse_y));
+	//toOf(submat_t, roi_1);
+//	roi_1.update();
 
-	return;
+//	return;
 }
 
 void GuiApp::onSliderEvent(ofxDatGuiSliderEvent e)

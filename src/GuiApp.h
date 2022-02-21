@@ -21,6 +21,7 @@ public:
 	void setup();
 	void setup_gui();
 	void setup_filter();
+	void setup_imgPreview();
 
 	void update();
 
@@ -31,8 +32,9 @@ public:
 	void draw();
 	void draw_gui();
 	void draw_filterPreview();
-	void draw_imgPreviewRect();
-
+	void draw_imgPreview();
+	void draw_Preview_Rect();
+	void update_Preview_Rect();
 
 	void filtermustload(bool & trig);
     void keyPressed(int key);
@@ -60,7 +62,28 @@ public:
 	//----generalinformations
 	int main_window_w;
 	int main_window_h;
+	
+	int last_click_x, last_click_y;
+	
+	
+	//---- deklaration for Previewvariables
+	
+	int PR_pos_x_;
+	int PR_pos_y_;
+	int PR_max_w_;
+	int PR_max_h_;
+
+	int prevrw;
+	int prevrh;
+	int prevrx;
+	int prevry;
+
+	float truth_scalefac;
 	float scalefac;
+
+	int mouse_x_dr, mouse_y_dr;
+	int dragOffset_x, dragOffset_y;
+
 	//-----------some FLAGS
 	bool gui_changed;
 	int  dropdownvalue;
@@ -89,17 +112,17 @@ public:
 	ofPoint pnt[4];
 	ofRectangle draw_bnds;
 
-	ofImage test2_img;
+	//ofImage test2_img;
 	ofImage filterImage;
-	ofImage roi_1;
-	ofImage roi2;
+	//ofImage roi_1;
+	//ofImage roi2;
 
 	ofPixels lena_pix;
 
 	// testparameter
 	int x_roi, y_roi;
 	int width_roi, height_roi;
-	int mouse_x_dr, mouse_y_dr;
+
 	int mouse_x, mouse_y;
 
 	ofxPanel gui;
@@ -110,21 +133,20 @@ public:
 	float pos_s3_x;
 	float pos_s3_y;
 
-	int PR_pos_x_;
-	int PR_pos_y_;
-	int PR_max_w_;
-	int PR_max_h_;
 
-		ofxPanel gui_s2;
+
+	ofxPanel gui_s2;
 	ofxPanel gui_s3;
 
 	ofxDatGui* m_gui;
+	ofxDatGuiDropdown* dropdown;
+	ofxDatGui* zoom_gui;
 
 	vector<ofxDatGuiComponent *> components;
 
-	ofParameterGroup sample_slider_1;
-	ofParameterGroup command_slider_2;
-	ofParameterGroup info_slider_3;
+	// ofParameterGroup sample_slider_1;
+	// ofParameterGroup command_slider_2;
+	// ofParameterGroup info_slider_3;
 
 	//-----sampleparameters
 	ofParameter<int> m_sampleamm_abs;
@@ -136,6 +158,9 @@ public:
 	ofParameter<int> cosy_e;
 	ofParameter<int> border_width;
 	ofParameter<int> border_height;
+
+	//-----zoom-GUI
+	ofParameter<int> m_zoom_fac;
 
 	//-----command-GUI
 

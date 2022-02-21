@@ -58,7 +58,7 @@ int main()
 	//ofSetWindowTitle("extern1");
 	shared_ptr<ofAppBaseWindow> gui_Window = ofCreateWindow(settings_main);
 
-	int main_window_w = 1220;
+	int main_window_w = 1920;
 	int main_window_h = 1028;
 	settings_main.setSize(main_window_w, main_window_h);
 	settings_main.setPosition(glm::vec2(0, 1028));
